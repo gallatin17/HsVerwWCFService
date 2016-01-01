@@ -570,6 +570,31 @@ Public Class Service1
 
         For i As Integer = 1 To 5
 
+            'Unterscheidung variabel oder fix -> variabel für 1 Jahr (letztes Jahr)
+
+            Select Case i
+                Case 1, 5 'variabel -> nur vergangenes Jahr 
+                    adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT " _
+                       & "ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie," _
+                       & "Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor," _
+                       & " ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit " _
+                       & "FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, " _
+                       & "tbl_einheit WHERE Einheit_ID = ID_Einheit And Zahlungsrythmus_ID = ID_Zahlungsrythmus " _
+                       & "And Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie " _
+                       & "And ID_Haushaltskategorie = Haushaltskategorie_ID And Haushaltskategorie_ID = " _
+                       & i & " AND Datum < '31.12.2015' AND Datum > '01.01.2015' ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+                Case Else
+                    adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT " _
+                        & "ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie," _
+                        & "Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor," _
+                        & " ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit " _
+                        & "FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, " _
+                        & "tbl_einheit WHERE Einheit_ID = ID_Einheit And Zahlungsrythmus_ID = ID_Zahlungsrythmus " _
+                        & "And Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie " _
+                        & "And ID_Haushaltskategorie = Haushaltskategorie_ID And Haushaltskategorie_ID = " _
+                        & i & "ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+            End Select
+
             adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND Haushaltskategorie_ID = " & i & " ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
             adp_KVI_mysql.Fill(get_daten)
 
@@ -592,17 +617,20 @@ Public Class Service1
 
             Select Case i
                 Case 1 'Verbrauch variabel
+                    vlo_auswertung.VerbrauchVarproJahr = wertprojahr.ToString & " €"
+                    vlo_auswertung.VerbrauchVarproMonat = CommercialRound((wertprojahr / 12), 2).ToString & " €"
                 Case 2 'Ausgabe fix
-                    vlo_auswertung.AusgabenproJahr = wertprojahr.ToString & " €"
-                    vlo_auswertung.AusgabenproMonat = CommercialRound((wertprojahr / 12), 2).ToString & " €"
+                    vlo_auswertung.AusgabenFixproJahr = wertprojahr.ToString & " €"
+                    vlo_auswertung.AusgabenFixproMonat = CommercialRound((wertprojahr / 12), 2).ToString & " €"
                 Case 3 'Einnahmen
                     vlo_auswertung.EinnahmenproJahr = wertprojahr.ToString & " €"
                     vlo_auswertung.EinnahmenproMonat = CommercialRound((wertprojahr / 12), 2).ToString & " €"
                 Case 4 'Verbrauch fix
-                    vlo_auswertung.VerbrauchproJahr = wertprojahr.ToString & " €"
-                    vlo_auswertung.VerbrauchproMonat = CommercialRound((wertprojahr / 12), 2).ToString & " €"
+                    vlo_auswertung.VerbrauchFixproJahr = wertprojahr.ToString & " €"
+                    vlo_auswertung.VerbrauchFixproMonat = CommercialRound((wertprojahr / 12), 2).ToString & " €"
                 Case 5 'Ausgabe variabel
-
+                    vlo_auswertung.AusgabenVarproJahr = wertprojahr.ToString & " €"
+                    vlo_auswertung.AusgabenVarproMonat = CommercialRound((wertprojahr / 12), 2).ToString & " €"
             End Select
 
             get_daten.Tables(0).Clear()

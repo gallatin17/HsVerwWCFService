@@ -405,45 +405,86 @@ Public Interface IService1
             End Set
         End Property
 
-        Private _verbrauchpromonat As String
-        <DataMember> Public Property VerbrauchproMonat As String
+        Private _verbrauchfixpromonat As String
+        <DataMember> Public Property VerbrauchFixproMonat As String
             Get
-                Return _verbrauchpromonat
+                Return _verbrauchfixpromonat
             End Get
             Set(value As String)
-                _verbrauchpromonat = value
+                _verbrauchfixpromonat = value
             End Set
         End Property
 
-        Private _verbrauchprojahr As String
-        <DataMember> Public Property VerbrauchproJahr As String
+        Private _verbrauchfixprojahr As String
+        <DataMember> Public Property VerbrauchFixproJahr As String
             Get
-                Return _verbrauchprojahr
+                Return _verbrauchfixprojahr
             End Get
             Set(value As String)
-                _verbrauchprojahr = value
+                _verbrauchfixprojahr = value
             End Set
         End Property
 
-        Private _ausgabenpromonat As String
-        <DataMember> Public Property AusgabenproMonat As String
+        Private _verbrauchvarpromonat As String
+        <DataMember> Public Property VerbrauchVarproMonat As String
             Get
-                Return _ausgabenpromonat
+                Return _verbrauchvarpromonat
             End Get
             Set(value As String)
-                _ausgabenpromonat = value
+                _verbrauchvarpromonat = value
             End Set
         End Property
 
-        Private _ausgabenprojahr As String
-        <DataMember> Public Property AusgabenproJahr As String
+        Private _verbrauchvarprojahr As String
+        <DataMember> Public Property VerbrauchVarproJahr As String
             Get
-                Return _ausgabenprojahr
+                Return _verbrauchvarprojahr
             End Get
             Set(value As String)
-                _ausgabenprojahr = value
+                _verbrauchvarprojahr = value
             End Set
         End Property
+
+        Private _ausgabenfixpromonat As String
+        <DataMember> Public Property AusgabenFixproMonat As String
+            Get
+                Return _ausgabenfixpromonat
+            End Get
+            Set(value As String)
+                _ausgabenfixpromonat = value
+            End Set
+        End Property
+
+        Private _ausgabenfixprojahr As String
+        <DataMember> Public Property AusgabenFixproJahr As String
+            Get
+                Return _ausgabenfixprojahr
+            End Get
+            Set(value As String)
+                _ausgabenfixprojahr = value
+            End Set
+        End Property
+
+        Private _ausgabenvarpromonat As String
+        <DataMember> Public Property AusgabenVarproMonat As String
+            Get
+                Return _ausgabenvarpromonat
+            End Get
+            Set(value As String)
+                _ausgabenvarpromonat = value
+            End Set
+        End Property
+
+        Private _ausgabenvarprojahr As String
+        <DataMember> Public Property AusgabenVarproJahr As String
+            Get
+                Return _ausgabenvarprojahr
+            End Get
+            Set(value As String)
+                _ausgabenvarprojahr = value
+            End Set
+        End Property
+
         Private _auswertungpromonat As String
         <DataMember> Public Property AuswertungproMonat As String
             Get
