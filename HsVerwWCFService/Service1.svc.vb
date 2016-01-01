@@ -560,10 +560,12 @@ Public Class Service1
         Dim vlo_auswertung As New IService1.Auswertung
         Dim myconnstring As String = ""
         Dim wertprojahr As Decimal = 0
+        Dim vlo_wertstring As String = ""
         Dim vlo_rowcount As Integer = 0
         Dim vlo_alterwert As Integer = 0
         Dim vlo_neuerwert As Integer = 0
         Dim vlo_anzahl As Integer = 0
+        Dim vlo_gesamtzahl As Integer = 0
         Dim vlo_preis As Decimal = 0
 
         myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
@@ -579,7 +581,7 @@ Public Class Service1
             'Unterscheidung variabel oder fix -> variabel für 1 Jahr (letztes Jahr)
 
             Select Case i
-                Case 1, 5 'variabel -> nur vergangenes Jahr 
+                Case 1 'variabel -> nur vergangenes Jahr 
                     adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT " _
                        & "ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie," _
                        & "Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor," _
@@ -623,7 +625,10 @@ Public Class Service1
                             Case 1
                                 'bei Wechsel Haushaltsunterkategorien (Verbrauchsarten) neu initialisieren
                                 If vlo_haushaltsunterkategorieid <> vlo_row.Item("Haushaltsunterkategorie_ID") Then
+                                    vlo_wertstring = vlo_wertstring & " " & vlo_gesamtzahl.ToString
+                                    vlo_gesamtzahl = 0
                                     vlo_alterwert = 0
+                                    vlo_rowcount = 0
                                     vlo_neuerwert = 0
                                     vlo_anzahl = 0
                                     vlo_haushaltsunterkategorieid = vlo_row.Item("Haushaltsunterkategorie_ID")
@@ -631,7 +636,7 @@ Public Class Service1
 
                                 If vlo_rowcount = 0 Then
                                     vlo_rowcount = vlo_rowcount + 1
-                                    vlo_alterwert = vlo_neuerwert
+                                    vlo_alterwert = vlo_row.Item("Anzahl")
                                     vlo_neuerwert = vlo_row.Item("Anzahl")
                                 Else
                                     vlo_rowcount = vlo_rowcount + 1
@@ -648,9 +653,11 @@ Public Class Service1
                                             vlo_preis = vlo_row_preis.Item("Preis")
                                         Next
                                     End If
+                                    vlo_gesamtzahl = vlo_gesamtzahl + vlo_anzahl
                                     wertprojahr = wertprojahr + (vlo_anzahl * vlo_preis)
+
                                 End If
-                            Case 5
+                                    Case 5
                                 wertprojahr = wertprojahr + vlo_row.Item("Anzahl")
                         End Select
 
@@ -659,7 +666,7 @@ Public Class Service1
 
             Select Case i
                 Case 1 'Verbrauch variabel
-                    vlo_auswertung.VerbrauchVarproJahr = wertprojahr.ToString & " €"
+                    vlo_auswertung.VerbrauchVarproJahr = vlo_wertstring ' CommercialRound((wertprojahr), 2).ToString & " €"
                     vlo_auswertung.VerbrauchVarproMonat = CommercialRound((wertprojahr / 12), 2).ToString & " €"
                 Case 2 'Ausgabe fix
                     vlo_auswertung.AusgabenFixproJahr = wertprojahr.ToString & " €"
