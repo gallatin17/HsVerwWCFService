@@ -560,13 +560,19 @@ Public Class Service1
         Dim vlo_auswertung As New IService1.Auswertung
         Dim myconnstring As String = ""
         Dim wertprojahr As Decimal = 0
+        Dim vlo_rowcount As Integer = 0
+        Dim vlo_alterwert As Integer = 0
+        Dim vlo_neuerwert As Integer = 0
+        Dim vlo_anzahl As Integer = 0
+        Dim vlo_preis As Decimal = 0
 
         myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
         Dim get_daten As New Data.DataSet
-
+        Dim get_preis As New Data.DataSet
+        Dim vlo_haushaltsunterkategorieid As Integer = 0
 
         For i As Integer = 1 To 5
 
@@ -582,7 +588,7 @@ Public Class Service1
                        & "tbl_einheit WHERE Einheit_ID = ID_Einheit And Zahlungsrythmus_ID = ID_Zahlungsrythmus " _
                        & "And Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie " _
                        & "And ID_Haushaltskategorie = Haushaltskategorie_ID And Haushaltskategorie_ID = " _
-                       & i & " AND Datum < '31.12.2015' AND Datum > '01.01.2015' ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+                       & i & " AND Datum BETWEEN '" & Year(Now) - 1 & "-01-01' AND '" & Year(Now) & "-01-01' ORDER BY Haushaltsunterkategorie_ID,Datum ASC;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
                 Case Else
                     adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT " _
                         & "ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie," _
@@ -592,13 +598,14 @@ Public Class Service1
                         & "tbl_einheit WHERE Einheit_ID = ID_Einheit And Zahlungsrythmus_ID = ID_Zahlungsrythmus " _
                         & "And Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie " _
                         & "And ID_Haushaltskategorie = Haushaltskategorie_ID And Haushaltskategorie_ID = " _
-                        & i & "ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+                        & i & " ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
             End Select
 
-            adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND Haushaltskategorie_ID = " & i & " ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+
             adp_KVI_mysql.Fill(get_daten)
 
             adp_KVI_mysql.Dispose()
+
 
             For Each vlo_row As DataRow In get_daten.Tables(0).Rows
 
@@ -611,8 +618,43 @@ Public Class Service1
                         wertprojahr = wertprojahr + (vlo_row.Item("Anzahl") * 4)
                     Case 4
                         wertprojahr = wertprojahr + (vlo_row.Item("Anzahl") * 12)
-                End Select
+                    Case Else
+                        Select Case i
+                            Case 1
+                                'bei Wechsel Haushaltsunterkategorien (Verbrauchsarten) neu initialisieren
+                                If vlo_haushaltsunterkategorieid <> vlo_row.Item("Haushaltsunterkategorie_ID") Then
+                                    vlo_alterwert = 0
+                                    vlo_neuerwert = 0
+                                    vlo_anzahl = 0
+                                    vlo_haushaltsunterkategorieid = vlo_row.Item("Haushaltsunterkategorie_ID")
+                                End If
 
+                                If vlo_rowcount = 0 Then
+                                    vlo_rowcount = vlo_rowcount + 1
+                                    vlo_alterwert = vlo_neuerwert
+                                    vlo_neuerwert = vlo_row.Item("Anzahl")
+                                Else
+                                    vlo_rowcount = vlo_rowcount + 1
+                                    vlo_alterwert = vlo_neuerwert
+                                    vlo_neuerwert = vlo_row.Item("Anzahl")
+
+                                    vlo_anzahl = vlo_neuerwert - vlo_alterwert
+
+                                    If vlo_rowcount Mod 2 <> 0 Then
+                                        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT Preis FROM tbl_verbrauchspreis WHERE Beginn <= '" & CDate(vlo_row.Item("Datum")).ToString("yyy-M-d HH:mm:ss") & "' AND Haushaltsunterkategorie_ID = " & vlo_row.Item("Haushaltsunterkategorie_ID") & " ORDER BY Beginn DESC LIMIT 1;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+                                        adp_KVI_mysql.Fill(get_preis)
+
+                                        For Each vlo_row_preis In get_preis.Tables(0).Rows
+                                            vlo_preis = vlo_row_preis.Item("Preis")
+                                        Next
+                                    End If
+                                    wertprojahr = wertprojahr + (vlo_anzahl * vlo_preis)
+                                End If
+                            Case 5
+                                wertprojahr = wertprojahr + vlo_row.Item("Anzahl")
+                        End Select
+
+                End Select
             Next
 
             Select Case i
@@ -640,10 +682,6 @@ Public Class Service1
         Next i
 
         Conn.Close()
-
-        'Neuer Webservice mit
-        'Ausgaben Monat/Jahr variabel
-        'Verbrauch Monat/Jahr variabel
 
         vlo_auswertung.AuswertungproJahr = "xxx"
         vlo_auswertung.AuswertungproMonat = "xxx"
