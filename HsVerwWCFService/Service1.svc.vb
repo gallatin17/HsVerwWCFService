@@ -590,7 +590,7 @@ Public Class Service1
                        & "tbl_einheit WHERE Einheit_ID = ID_Einheit And Zahlungsrythmus_ID = ID_Zahlungsrythmus " _
                        & "And Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie " _
                        & "And ID_Haushaltskategorie = Haushaltskategorie_ID And Haushaltskategorie_ID = " _
-                       & i & " AND Datum BETWEEN '" & Year(Now) - 1 & "-01-01' AND '" & Year(Now) & "-01-01' ORDER BY Haushaltsunterkategorie_ID,Datum ASC;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+                         & i & " AND Datum BETWEEN '" & Year(Now) - 1 & "-01-01' AND '" & Year(Now) & "-01-01' ORDER BY Haushaltsunterkategorie_ID,Datum ASC;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
                 Case Else
                     adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT " _
                         & "ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie," _
@@ -620,23 +620,22 @@ Public Class Service1
                         wertprojahr = wertprojahr + (vlo_row.Item("Anzahl") * 4)
                     Case 4
                         wertprojahr = wertprojahr + (vlo_row.Item("Anzahl") * 12)
-                    Case Else
+                    Case 5
                         Select Case i
                             Case 1
                                 'bei Wechsel Haushaltsunterkategorien (Verbrauchsarten) neu initialisieren
-                                If vlo_haushaltsunterkategorieid <> vlo_row.Item("Haushaltsunterkategorie_ID") Then
-                                    vlo_wertstring = vlo_wertstring & " " & vlo_gesamtzahl.ToString
-                                    vlo_gesamtzahl = 0
+                                If vlo_haushaltsunterkategorieid <> vlo_row.Item("Haushaltsunterkategorie_ID") And vlo_haushaltsunterkategorieid <> 0 Then
                                     vlo_alterwert = 0
                                     vlo_rowcount = 0
                                     vlo_neuerwert = 0
                                     vlo_anzahl = 0
-                                    vlo_haushaltsunterkategorieid = vlo_row.Item("Haushaltsunterkategorie_ID")
                                 End If
+
+                                vlo_haushaltsunterkategorieid = vlo_row.Item("Haushaltsunterkategorie_ID")
 
                                 If vlo_rowcount = 0 Then
                                     vlo_rowcount = vlo_rowcount + 1
-                                    vlo_alterwert = vlo_row.Item("Anzahl")
+                                    vlo_alterwert = vlo_neuerwert
                                     vlo_neuerwert = vlo_row.Item("Anzahl")
                                 Else
                                     vlo_rowcount = vlo_rowcount + 1
@@ -645,28 +644,25 @@ Public Class Service1
 
                                     vlo_anzahl = vlo_neuerwert - vlo_alterwert
 
-                                    If vlo_rowcount Mod 2 <> 0 Then
-                                        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT Preis FROM tbl_verbrauchspreis WHERE Beginn <= '" & CDate(vlo_row.Item("Datum")).ToString("yyy-M-d HH:mm:ss") & "' AND Haushaltsunterkategorie_ID = " & vlo_row.Item("Haushaltsunterkategorie_ID") & " ORDER BY Beginn DESC LIMIT 1;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+                                    adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT Preis FROM tbl_verbrauchspreis WHERE Beginn <= '" & CDate(vlo_row.Item("Datum")).ToString("yyy-M-d HH:mm:ss") & "' AND Haushaltsunterkategorie_ID = " & vlo_row.Item("Haushaltsunterkategorie_ID") & " ORDER BY Beginn DESC LIMIT 1;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
                                         adp_KVI_mysql.Fill(get_preis)
 
                                         For Each vlo_row_preis In get_preis.Tables(0).Rows
                                             vlo_preis = vlo_row_preis.Item("Preis")
                                         Next
-                                    End If
-                                    vlo_gesamtzahl = vlo_gesamtzahl + vlo_anzahl
+
                                     wertprojahr = wertprojahr + (vlo_anzahl * vlo_preis)
 
                                 End If
-                                    Case 5
+                            Case 5
                                 wertprojahr = wertprojahr + vlo_row.Item("Anzahl")
                         End Select
-
                 End Select
             Next
 
             Select Case i
                 Case 1 'Verbrauch variabel
-                    vlo_auswertung.VerbrauchVarproJahr = vlo_wertstring ' CommercialRound((wertprojahr), 2).ToString & " €"
+                    vlo_auswertung.VerbrauchVarproJahr = CommercialRound((wertprojahr), 2).ToString & " €" '
                     vlo_auswertung.VerbrauchVarproMonat = CommercialRound((wertprojahr / 12), 2).ToString & " €"
                 Case 2 'Ausgabe fix
                     vlo_auswertung.AusgabenFixproJahr = wertprojahr.ToString & " €"
