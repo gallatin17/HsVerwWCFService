@@ -40,7 +40,7 @@ Public Class Service1
         Return vlo_gesamtverbrauch
 
     End Function
-    Public Function GetAusgabe() As IEnumerable(Of IService1.Ausgabe) Implements IService1.GetAusgabe
+    Public Function GetAusgaben() As IEnumerable(Of IService1.Ausgabe) Implements IService1.GetAusgaben
         Dim Conn As MySql.Data.MySqlClient.MySqlConnection
         Dim vlo_gesamtausgaben As New List(Of IService1.Ausgabe)
         Dim myconnstring As String = ""
@@ -74,6 +74,42 @@ Public Class Service1
         Next
         Conn.Close()
         Return vlo_gesamtausgaben
+    End Function
+
+    Public Function GetEinnahmen() As IEnumerable(Of IService1.Einnahme) Implements IService1.GetEinnahmen
+        Dim Conn As MySql.Data.MySqlClient.MySqlConnection
+        Dim vlo_gesamteinnahmen As New List(Of IService1.Einnahme)
+        Dim myconnstring As String = ""
+
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
+        Conn.Open()
+
+        Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
+        Dim get_daten As New Data.DataSet
+        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND Haushaltskategorie_ID = 3 ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.Fill(get_daten)
+
+        adp_KVI_mysql.Dispose()
+
+        For Each vlo_row As DataRow In get_daten.Tables(0).Rows
+            Dim vlo_einnahme As New IService1.Einnahme
+            vlo_einnahme.ID = vlo_row.Item("ID_Werte")
+            vlo_einnahme.Wert = vlo_row.Item("Anzahl")
+            vlo_einnahme.Datum = vlo_row.Item("Datum")
+            vlo_einnahme.Haushaltskategorie = vlo_row.Item("Haushaltskategorie")
+            vlo_einnahme.HaushaltskategorieID = vlo_row.Item("Haushaltskategorie_ID")
+            vlo_einnahme.Haushaltsunterkategorie = vlo_row.Item("Haushaltsunterkategorie")
+            vlo_einnahme.HaushaltsunterkategorieID = vlo_row.Item("Haushaltsunterkategorie_ID")
+            vlo_einnahme.Einheit = vlo_row.Item("Einheit")
+            vlo_einnahme.EinheitID = vlo_row.Item("ID_Einheit")
+            vlo_einnahme.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
+            vlo_einnahme.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
+            vlo_einnahme.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
+            vlo_gesamteinnahmen.Add(vlo_einnahme)
+        Next
+        Conn.Close()
+        Return vlo_gesamteinnahmen
     End Function
 
     Public Function GetVerbrauchbyTyp(ByVal verbrauchstyp As Long) As IEnumerable(Of IService1.Verbrauch) Implements IService1.GetVerbrauchbyTyp
@@ -368,6 +404,45 @@ Public Class Service1
         Conn.Close()
         Return True
     End Function
+    Public Function SetEinnahme(ByVal vlo_einnahme As IService1.Einnahme) As String Implements IService1.SetEinnahme
+        Dim Conn As MySql.Data.MySqlClient.MySqlConnection
+        Dim myconnstring As String = ""
+
+        SetEinnahme = ""
+
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
+        Conn.Open()
+
+        Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
+
+        Try
+            SetEinnahme = "UPDATE tbl_werte SET Haushaltsunterkategorie_ID = " & vlo_einnahme.HaushaltsunterkategorieID & ", Anzahl = " & vlo_einnahme.Wert & ", Datum = '" & vlo_einnahme.Datum.ToString("yyy-MM-dd") & "', Bemerkung = '' WHERE ID_Werte =  " & vlo_einnahme.ID & ";"
+            adp_KVI_mysql.UpdateCommand = New MySql.Data.MySqlClient.MySqlCommand("UPDATE tbl_werte SET Haushaltsunterkategorie_ID = " & vlo_einnahme.HaushaltsunterkategorieID & ", Anzahl = " & vlo_einnahme.Wert & ", Datum = '" & vlo_einnahme.Datum.ToString("yyy-MM-dd") & "', Bemerkung = '' WHERE ID_Werte =  " & vlo_einnahme.ID & ";", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+            adp_KVI_mysql.UpdateCommand.ExecuteNonQuery()
+        Catch ex As Exception
+            SetEinnahme = "FEHLER " & ex.Message
+        End Try
+
+        'Nur dann Zahlungsrythmus wegschreiben wenn notwendig (0 = variable Ausgaben ohne Rythmus Einkäufe usw.)
+        If vlo_einnahme.ZahlungsrythmusID <> 0 Then
+
+            Try
+                SetEinnahme = "UPDATE tbl_haushaltsunterkategorie SET Zahlungsrythmus_ID = " & vlo_einnahme.ZahlungsrythmusID & " WHERE ID_Haushaltsunterkategorie =  " & vlo_einnahme.HaushaltsunterkategorieID & ";"
+                adp_KVI_mysql.UpdateCommand = New MySql.Data.MySqlClient.MySqlCommand("UPDATE tbl_haushaltsunterkategorie SET Zahlungsrythmus_ID = " & vlo_einnahme.ZahlungsrythmusID & " WHERE ID_Haushaltsunterkategorie =  " & vlo_einnahme.HaushaltsunterkategorieID & ";", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+                adp_KVI_mysql.UpdateCommand.ExecuteNonQuery()
+            Catch ex As Exception
+                SetEinnahme = "FEHLER " & ex.Message
+            End Try
+
+        End If
+
+
+        adp_KVI_mysql.Dispose()
+        Conn.Close()
+        Return SetEinnahme
+
+    End Function
     Public Function SetAusgabe(ByVal vlo_ausgabe As IService1.Ausgabe) As String Implements IService1.SetAusgabe
         Dim Conn As MySql.Data.MySqlClient.MySqlConnection
         Dim myconnstring As String = ""
@@ -460,7 +535,7 @@ Public Class Service1
         Catch ex As Exception
             SetAusgabeNew = "FEHLER " & ex.Message
         End Try
-        
+
 
         get_daten.Clear()
 
@@ -471,7 +546,7 @@ Public Class Service1
         Catch ex As Exception
             SetAusgabeNew = "FEHLER " & ex.Message
         End Try
-       
+
 
         'Neuen Wert eintragen
         vlo_id2 = get_daten.Tables(0).Rows(0).Item("MAXID") + 1
@@ -483,12 +558,73 @@ Public Class Service1
         Catch ex As Exception
             SetAusgabeNew = "FEHLER " & ex.Message
         End Try
-       
+
         adp_KVI_mysql.Dispose()
         Conn.Close()
 
         Return SetAusgabeNew
     End Function
+
+    Public Function SetEinnahmeNew(ByVal vlo_einnahme As IService1.Einnahme) As String Implements IService1.SetEinnahmeNew
+        Dim Conn As MySql.Data.MySqlClient.MySqlConnection
+        Dim myconnstring As String = ""
+        Dim vlo_id1 As Long = 0
+        Dim vlo_id2 As Long = 0
+
+        SetEinnahmeNew = ""
+
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
+        Conn.Open()
+
+        Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
+        Dim get_daten As New Data.DataSet
+
+        SetEinnahmeNew = "SELECT MAX(ID_Haushaltsunterkategorie) AS MAXID FROM tbl_haushaltsunterkategorie;"
+
+        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand(SetEinnahmeNew, CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.Fill(get_daten)
+
+        'Neue Unterkategorie (wg. Zahlungsrythmus)
+        vlo_id1 = get_daten.Tables(0).Rows(0).Item("MAXID") + 1
+
+        Try
+            SetEinnahmeNew = "INSERT INTO tbl_haushaltsunterkategorie (ID_Haushaltsunterkategorie, Haushaltsunterkategorie, Haushaltskategorie_ID, Einheit_ID, Zahlungsrythmus_ID,Bemerkung) VALUES(" & vlo_id1 & ",'" & vlo_einnahme.Haushaltsunterkategorie & "'," & vlo_einnahme.HaushaltskategorieID & "," & vlo_einnahme.EinheitID & "," & vlo_einnahme.ZahlungsrythmusID & ",'');"
+            adp_KVI_mysql.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand(SetEinnahmeNew, CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+            adp_KVI_mysql.InsertCommand.ExecuteNonQuery()
+        Catch ex As Exception
+            SetEinnahmeNew = "FEHLER " & ex.Message
+        End Try
+
+
+        get_daten.Clear()
+
+        Try
+            SetEinnahmeNew = "SELECT MAX(ID_Werte) AS MAXID FROM tbl_werte;"
+            adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand(SetEinnahmeNew, CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+            adp_KVI_mysql.Fill(get_daten)
+        Catch ex As Exception
+            SetEinnahmeNew = "FEHLER " & ex.Message
+        End Try
+
+
+        'Neuen Wert eintragen
+        vlo_id2 = get_daten.Tables(0).Rows(0).Item("MAXID") + 1
+
+        Try
+            SetEinnahmeNew = "INSERT INTO tbl_werte (ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Bemerkung) VALUES(" & vlo_id2 & "," & vlo_id1 & "," & vlo_einnahme.Wert & ",'" & vlo_einnahme.Datum.ToString("yyy-MM-dd") & "','');"
+            adp_KVI_mysql.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand(SetEinnahmeNew, CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+            adp_KVI_mysql.InsertCommand.ExecuteNonQuery()
+        Catch ex As Exception
+            SetEinnahmeNew = "FEHLER " & ex.Message
+        End Try
+
+        adp_KVI_mysql.Dispose()
+        Conn.Close()
+
+        Return SetEinnahmeNew
+    End Function
+
     Public Function DeleteVerbrauch(ByVal vlo_verbrauch As IService1.Verbrauch) As Boolean Implements IService1.DeleteVerbrauch
         Dim Conn As MySql.Data.MySqlClient.MySqlConnection
         Dim myconnstring As String = ""
@@ -528,6 +664,30 @@ Public Class Service1
         Conn.Close()
         Return True
     End Function
+
+    Public Function DeleteEinnahme(ByVal vlo_einnahme As IService1.Einnahme) As Boolean Implements IService1.DeleteEinnahme
+        Dim Conn As MySql.Data.MySqlClient.MySqlConnection
+        Dim myconnstring As String = ""
+
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
+        Conn.Open()
+
+        Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
+
+        'Wert löschen
+        adp_KVI_mysql.DeleteCommand = New MySql.Data.MySqlClient.MySqlCommand("DELETE FROM tbl_werte WHERE ID_Werte =  " & vlo_einnahme.ID & ";", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.DeleteCommand.ExecuteNonQuery()
+
+        'Unterkategorie löschen
+        adp_KVI_mysql.DeleteCommand = New MySql.Data.MySqlClient.MySqlCommand("DELETE FROM tbl_haushaltsunterkategorie WHERE ID_Haushaltsunterkategorie =  " & vlo_einnahme.HaushaltsunterkategorieID & ";", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.DeleteCommand.ExecuteNonQuery()
+
+        adp_KVI_mysql.Dispose()
+        Conn.Close()
+        Return True
+    End Function
+
     Public Function GetHaushaltskategorien() As IEnumerable(Of IService1.Haushaltskategorie) Implements IService1.GetHaushaltskategorien
         Dim Conn As MySql.Data.MySqlClient.MySqlConnection
         Dim vlo_haushaltskategorien As New List(Of IService1.Haushaltskategorie)
@@ -567,6 +727,9 @@ Public Class Service1
         Dim vlo_anzahl As Integer = 0
         Dim vlo_gesamtzahl As Integer = 0
         Dim vlo_preis As Decimal = 0
+        Dim vlo_ausgabevarprojahr As Decimal = 0
+        Dim vlo_ausgabefixprojahr As Decimal = 0
+        Dim vlo_einnahmen As Decimal = 0
 
         myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
@@ -662,18 +825,21 @@ Public Class Service1
 
             Select Case i
                 Case 1 'Verbrauch variabel
-                    vlo_auswertung.VerbrauchVarproJahr = CommercialRound((wertprojahr), 2).ToString & " €" '
+                    vlo_auswertung.VerbrauchVarproJahr = CommercialRound((wertprojahr), 2).ToString & " €"
                     vlo_auswertung.VerbrauchVarproMonat = CommercialRound((wertprojahr / 12), 2).ToString & " €"
-                Case 2 'Ausgabe fix
+                Case 2 'Ausgabe 
+                    vlo_ausgabefixprojahr = wertprojahr
                     vlo_auswertung.AusgabenFixproJahr = wertprojahr.ToString & " €"
                     vlo_auswertung.AusgabenFixproMonat = CommercialRound((wertprojahr / 12), 2).ToString & " €"
                 Case 3 'Einnahmen
+                    vlo_einnahmen = wertprojahr
                     vlo_auswertung.EinnahmenproJahr = wertprojahr.ToString & " €"
                     vlo_auswertung.EinnahmenproMonat = CommercialRound((wertprojahr / 12), 2).ToString & " €"
                 Case 4 'Verbrauch fix
                     vlo_auswertung.VerbrauchFixproJahr = wertprojahr.ToString & " €"
                     vlo_auswertung.VerbrauchFixproMonat = CommercialRound((wertprojahr / 12), 2).ToString & " €"
                 Case 5 'Ausgabe variabel
+                    vlo_ausgabevarprojahr = wertprojahr
                     vlo_auswertung.AusgabenVarproJahr = wertprojahr.ToString & " €"
                     vlo_auswertung.AusgabenVarproMonat = CommercialRound((wertprojahr / 12), 2).ToString & " €"
             End Select
@@ -686,8 +852,8 @@ Public Class Service1
 
         Conn.Close()
 
-        vlo_auswertung.AuswertungproJahr = "xxx"
-        vlo_auswertung.AuswertungproMonat = "xxx"
+        vlo_auswertung.AuswertungproJahr = (vlo_einnahmen - (vlo_ausgabevarprojahr + vlo_ausgabefixprojahr)).ToString & " €"
+        vlo_auswertung.AuswertungproMonat = (CommercialRound((vlo_einnahmen / 12), 2) - (CommercialRound((vlo_ausgabevarprojahr / 12), 2) + CommercialRound((vlo_ausgabefixprojahr / 12), 2))).ToString & " €"
 
         Return vlo_auswertung
 

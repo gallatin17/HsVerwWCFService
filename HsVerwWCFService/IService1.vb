@@ -7,7 +7,9 @@ Public Interface IService1
     <OperationContract()>
     Function GetVerbrauch() As IEnumerable(Of Verbrauch)
     <OperationContract()>
-    Function GetAusgabe() As IEnumerable(Of Ausgabe)
+    Function GetAusgaben() As IEnumerable(Of Ausgabe)
+    <OperationContract()>
+    Function GetEinnahmen() As IEnumerable(Of Einnahme)
     <OperationContract()>
     Function GetVerbrauchbyTyp(ByVal verbrauchstyp As Long) As IEnumerable(Of Verbrauch)
     <OperationContract()>
@@ -33,13 +35,19 @@ Public Interface IService1
     <OperationContract()>
     Function SetAusgabe(ByVal vlo_ausgabe As Ausgabe) As String
     <OperationContract()>
+    Function SetEinnahme(ByVal vlo_einnahme As Einnahme) As String
+    <OperationContract()>
     Function SetVerbrauchNew(ByVal vlo_verbrauch As Verbrauch) As Boolean
     <OperationContract()>
     Function SetAusgabeNew(ByVal vlo_ausgabe As Ausgabe) As String
     <OperationContract()>
+    Function SetEinnahmeNew(ByVal vlo_ausgabe As Einnahme) As String
+    <OperationContract()>
     Function DeleteVerbrauch(ByVal vlo_verbrauch As Verbrauch) As Boolean
     <OperationContract()>
     Function DeleteAusgabe(ByVal vlo_ausgabe As Ausgabe) As Boolean
+    <OperationContract()>
+    Function DeleteEinnahme(ByVal vlo_ausgabe As Einnahme) As Boolean
     <OperationContract()>
     Function GetHaushaltskategorien() As IEnumerable(Of Haushaltskategorie)
     <OperationContract()>
@@ -239,6 +247,21 @@ Public Interface IService1
             End Get
             Set(value As Long)
                 _haushaltskategorieid = value
+            End Set
+        End Property
+
+    End Class
+
+    <DataContract(Name:="Einnahme")> Class Einnahme
+        Inherits Basis
+
+        Private _einnahmentyp As String
+        <DataMember> Public Property Einnahmentyp As String
+            Get
+                Return _einnahmentyp
+            End Get
+            Set(value As String)
+                _einnahmentyp = value
             End Set
         End Property
 
