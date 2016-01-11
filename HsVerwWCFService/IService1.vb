@@ -51,8 +51,6 @@ Public Interface IService1
     <OperationContract()>
     Function GetHaushaltskategorien() As IEnumerable(Of Haushaltskategorie)
     <OperationContract()>
-    Function GetVerbrauchstypen() As IEnumerable(Of Verbrauchstyp)
-    <OperationContract()>
     Function GetAuswertung() As Auswertung
 
     <DataContract()>
