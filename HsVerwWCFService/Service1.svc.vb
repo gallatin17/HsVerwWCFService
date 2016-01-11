@@ -715,6 +715,33 @@ Public Class Service1
         Return vlo_haushaltskategorien
     End Function
 
+    Public Function GetVerbrauchstypen() As IEnumerable(Of IService1.Verbrauchstyp) Implements IService1.GetVerbrauchstypen
+        Dim Conn As MySql.Data.MySqlClient.MySqlConnection
+        Dim vlo_verbrauchstypen As New List(Of IService1.Verbrauchstyp)
+        Dim myconnstring As String = ""
+
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
+        Conn.Open()
+
+        Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
+        Dim get_daten As New Data.DataSet
+        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Haushaltsunterkategorie, Haushaltsunterkategorie FROM tbl_haushaltskategorie WHERE Haushaltskategorie = 1;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.Fill(get_daten)
+
+        adp_KVI_mysql.Dispose()
+
+        For Each vlo_row As DataRow In get_daten.Tables(0).Rows
+            Dim vlo_verbrauchstyp As New IService1.Verbrauchstyp
+            vlo_verbrauchstyp.ID = vlo_row.Item("ID_Haushaltsunterkategorie")
+            vlo_verbrauchstyp.Haushaltsunterkategorie = vlo_row.Item("Haushaltsunterkategorie")
+            vlo_verbrauchstypen.Add(vlo_verbrauchstyp)
+
+        Next
+        Conn.Close()
+        Return vlo_verbrauchstypen
+    End Function
+
     Public Function GetAuswertung() As IService1.Auswertung Implements IService1.GetAuswertung
         Dim Conn As MySql.Data.MySqlClient.MySqlConnection
         Dim vlo_auswertung As New IService1.Auswertung
