@@ -29,6 +29,8 @@ Public Interface IService1
     <OperationContract()>
     Function GetZahlungsrythmen() As IEnumerable(Of Zahlungsrythmus)
     <OperationContract()>
+    Function GetEinheiten() As IEnumerable(Of Einheit)
+    <OperationContract()>
     Function GetVarVerbrauchKat() As IEnumerable(Of VarVerbrauchKat)
     <OperationContract()>
     Function SetVerbrauch(ByVal vlo_verbrauch As Verbrauch) As Boolean
@@ -50,6 +52,8 @@ Public Interface IService1
     Function DeleteEinnahme(ByVal vlo_ausgabe As Einnahme) As Boolean
     <OperationContract()>
     Function GetHaushaltskategorien() As IEnumerable(Of Haushaltskategorie)
+    <OperationContract()>
+    Function GetHaushaltsunterkategorien() As IEnumerable(Of Haushaltsunterkategorie)
     <OperationContract()>
     Function GetAuswertung() As Auswertung
 
@@ -357,6 +361,30 @@ Public Interface IService1
 
     End Class
 
+    <DataContract(Name:="Einheit")>
+    Class Einheit
+        Private _id As Long
+        <DataMember> Public Property ID As Long
+            Get
+                Return _id
+            End Get
+            Set(value As Long)
+                _id = value
+            End Set
+        End Property
+
+        Private _einheit As String
+        <DataMember> Public Property Einheit As String
+            Get
+                Return _einheit
+            End Get
+            Set(value As String)
+                _einheit = value
+            End Set
+        End Property
+
+    End Class
+
     <DataContract(Name:="VarVerbrauchKat")>
     Class VarVerbrauchKat
         Private _id As Long
@@ -400,6 +428,40 @@ Public Interface IService1
             End Get
             Set(value As String)
                 _haushaltskategorie = value
+            End Set
+        End Property
+
+    End Class
+
+    <DataContract(Name:="Haushaltsunterkategorie")>
+    Class Haushaltsunterkategorie
+        Private _id As Long
+        <DataMember> Public Property ID As Long
+            Get
+                Return _id
+            End Get
+            Set(value As Long)
+                _id = value
+            End Set
+        End Property
+
+        Private _haushaltsunterkategorie As String
+        <DataMember> Public Property Haushaltsunterkategorie As String
+            Get
+                Return _haushaltsunterkategorie
+            End Get
+            Set(value As String)
+                _haushaltsunterkategorie = value
+            End Set
+        End Property
+
+        Private _kategorieid As Long
+        <DataMember> Public Property KategorieID As Long
+            Get
+                Return _kategorieid
+            End Get
+            Set(value As Long)
+                _kategorieid = value
             End Set
         End Property
 

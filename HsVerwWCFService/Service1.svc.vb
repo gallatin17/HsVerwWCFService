@@ -354,6 +354,32 @@ Public Class Service1
 
     End Function
 
+    Public Function GetEinheiten() As IEnumerable(Of IService1.Einheit) Implements IService1.GetEinheiten
+        Dim Conn As MySql.Data.MySqlClient.MySqlConnection
+        Dim vlo_einheiten As New List(Of IService1.Einheit)
+        Dim myconnstring As String = ""
+
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
+        Conn.Open()
+        Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
+        Dim get_daten As New Data.DataSet
+        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Einheit, Einheit FROM tbl_einheit ORDER BY ID_Einheit;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.Fill(get_daten)
+
+        adp_KVI_mysql.Dispose()
+
+        For Each vlo_row As DataRow In get_daten.Tables(0).Rows
+            Dim vlo_einheit As New IService1.Einheit
+            vlo_einheit.Einheit = vlo_row.Item("Einheit")
+            vlo_einheit.ID = vlo_row.Item("ID_Einheit")
+            vlo_einheiten.Add(vlo_einheit)
+        Next
+        Conn.Close()
+        Return vlo_einheiten
+
+    End Function
+
     Public Function GetVarVerbrauchKat() As IEnumerable(Of IService1.VarVerbrauchKat) Implements IService1.GetVarVerbrauchKat
         Dim Conn As MySql.Data.MySqlClient.MySqlConnection
         Dim vlo_varverbrauchkats As New List(Of IService1.VarVerbrauchKat)
@@ -713,6 +739,34 @@ Public Class Service1
         Next
         Conn.Close()
         Return vlo_haushaltskategorien
+    End Function
+
+    Public Function GetHaushaltsunterkategorien() As IEnumerable(Of IService1.Haushaltsunterkategorie) Implements IService1.GetHaushaltsunterkategorien
+        Dim Conn As MySql.Data.MySqlClient.MySqlConnection
+        Dim vlo_haushaltsunterkategorien As New List(Of IService1.Haushaltsunterkategorie)
+        Dim myconnstring As String = ""
+
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
+        Conn.Open()
+
+        Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
+        Dim get_daten As New Data.DataSet
+        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Haushaltsunterkategorie, Haushaltsunterkategorie, Haushaltskategorie_ID FROM tbl_haushaltsunterkategorie;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.Fill(get_daten)
+
+        adp_KVI_mysql.Dispose()
+
+        For Each vlo_row As DataRow In get_daten.Tables(0).Rows
+            Dim vlo_haushaltsunterkategorie As New IService1.Haushaltsunterkategorie
+            vlo_haushaltsunterkategorie.ID = vlo_row.Item("ID_Haushaltsunterkategorie")
+            vlo_haushaltsunterkategorie.Haushaltsunterkategorie = vlo_row.Item("Haushaltsunterkategorie")
+            vlo_haushaltsunterkategorie.KategorieID = vlo_row.Item("Haushaltskategorie_ID")
+            vlo_haushaltsunterkategorien.Add(vlo_haushaltsunterkategorie)
+
+        Next
+        Conn.Close()
+        Return vlo_haushaltsunterkategorien
     End Function
 
     Public Function GetAuswertung() As IService1.Auswertung Implements IService1.GetAuswertung
