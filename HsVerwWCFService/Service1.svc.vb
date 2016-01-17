@@ -316,6 +316,43 @@ Public Class Service1
         Conn.Close()
         Return vlo_ausgabe
     End Function
+
+    Public Function GetEinnahmebyID(ByVal ID As Long) As IService1.Einnahme Implements IService1.GetEinnahmebyID
+        Dim Conn As MySql.Data.MySqlClient.MySqlConnection
+        Dim vlo_einnahme As New IService1.Einnahme
+        Dim myconnstring As String = ""
+
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
+        Conn.Open()
+
+        Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
+        Dim get_daten As New Data.DataSet
+        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND ID_Werte = " & ID & " ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.Fill(get_daten)
+
+        adp_KVI_mysql.Dispose()
+
+        For Each vlo_row As DataRow In get_daten.Tables(0).Rows
+
+            vlo_einnahme.ID = vlo_row.Item("ID_Werte")
+            vlo_einnahme.Wert = vlo_row.Item("Anzahl")
+            vlo_einnahme.Datum = vlo_row.Item("Datum")
+            vlo_einnahme.Haushaltskategorie = vlo_row.Item("Haushaltskategorie")
+            vlo_einnahme.HaushaltskategorieID = vlo_row.Item("Haushaltskategorie_ID")
+            vlo_einnahme.Haushaltsunterkategorie = vlo_row.Item("Haushaltsunterkategorie")
+            vlo_einnahme.HaushaltsunterkategorieID = vlo_row.Item("Haushaltsunterkategorie_ID")
+            vlo_einnahme.Einheit = vlo_row.Item("Einheit")
+            vlo_einnahme.EinheitID = vlo_row.Item("ID_Einheit")
+            vlo_einnahme.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
+            vlo_einnahme.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
+            vlo_einnahme.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
+
+        Next
+        Conn.Close()
+        Return vlo_einnahme
+    End Function
+
     Public Function GetVerbrauchbyDate(ByVal datum As Date) As IService1.Verbrauch Implements IService1.GetVerbrauchbyDate
         Dim Conn As MySql.Data.MySqlClient.MySqlConnection
         Conn = Nothing

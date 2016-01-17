@@ -56,6 +56,8 @@ Public Interface IService1
     Function GetHaushaltsunterkategorien() As IEnumerable(Of Haushaltsunterkategorie)
     <OperationContract()>
     Function GetAuswertung() As Auswertung
+    <OperationContract()>
+    Function GetEinnahmebyID(ByVal ID As Long) As Einnahme
 
     <DataContract()>
     Class Basis
