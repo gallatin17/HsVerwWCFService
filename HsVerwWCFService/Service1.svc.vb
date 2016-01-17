@@ -456,8 +456,8 @@ Public Class Service1
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
 
         Try
-            SetVerbrauch = "UPDATE tbl_werte SET Haushaltsunterkategorie_ID = " & vlo_verbrauch.HaushaltsunterkategorieID & ", Anzahl = " & vlo_verbrauch.Wert & ", Datum = '" & vlo_verbrauch.Datum & "', Bemerkung = '' WHERE ID_Werte =  " & vlo_verbrauch.ID & ";"
-            adp_KVI_mysql.UpdateCommand = New MySql.Data.MySqlClient.MySqlCommand("UPDATE tbl_werte SET Haushaltsunterkategorie_ID = " & vlo_verbrauch.HaushaltsunterkategorieID & ", Anzahl = " & vlo_verbrauch.Wert & ", Datum = '" & vlo_verbrauch.Datum & "', Bemerkung = '' WHERE ID_Werte =  " & vlo_verbrauch.ID & ";", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+            SetVerbrauch = "UPDATE tbl_werte SET Haushaltsunterkategorie_ID = " & vlo_verbrauch.HaushaltsunterkategorieID & ", Anzahl = " & vlo_verbrauch.Wert & ", Datum = '" & vlo_verbrauch.Datum.ToString("yyy-MM-dd") & "', Bemerkung = '' WHERE ID_Werte =  " & vlo_verbrauch.ID & ";"
+            adp_KVI_mysql.UpdateCommand = New MySql.Data.MySqlClient.MySqlCommand("UPDATE tbl_werte SET Haushaltsunterkategorie_ID = " & vlo_verbrauch.HaushaltsunterkategorieID & ", Anzahl = " & vlo_verbrauch.Wert & ", Datum = '" & vlo_verbrauch.Datum.ToString("yyy-MM-dd") & "', Bemerkung = '' WHERE ID_Werte =  " & vlo_verbrauch.ID & ";", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
             adp_KVI_mysql.UpdateCommand.ExecuteNonQuery()
         Catch ex As Exception
             SetVerbrauch = "FEHLER " & ex.Message
@@ -527,8 +527,16 @@ Public Class Service1
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
 
         Try
-            SetAusgabe = "UPDATE tbl_werte SET Haushaltsunterkategorie_ID = " & vlo_ausgabe.HaushaltsunterkategorieID & ", Anzahl = " & vlo_ausgabe.Wert & ", Datum = '" & vlo_ausgabe.Datum.ToString("yyy-MM-dd") & "', Bemerkung = '' WHERE ID_Werte =  " & vlo_ausgabe.ID & ";"
-            adp_KVI_mysql.UpdateCommand = New MySql.Data.MySqlClient.MySqlCommand("UPDATE tbl_werte SET Haushaltsunterkategorie_ID = " & vlo_ausgabe.HaushaltsunterkategorieID & ", Anzahl = " & vlo_ausgabe.Wert & ", Datum = '" & vlo_ausgabe.Datum.ToString("yyy-MM-dd") & "', Bemerkung = '' WHERE ID_Werte =  " & vlo_ausgabe.ID & ";", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+            SetAusgabe = "UPDATE tbl_haushaltsunterkategorie SET Haushaltsunterkategorie ='" & vlo_ausgabe.Haushaltsunterkategorie & "' WHERE ID_Haushaltsunterkategorie =  " & vlo_ausgabe.HaushaltsunterkategorieID & ";"
+            adp_KVI_mysql.UpdateCommand = New MySql.Data.MySqlClient.MySqlCommand("UPDATE tbl_haushaltsunterkategorie SET Haushaltsunterkategorie ='" & vlo_ausgabe.Haushaltsunterkategorie & "' WHERE ID_Haushaltsunterkategorie =  " & vlo_ausgabe.HaushaltsunterkategorieID & ";", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+            adp_KVI_mysql.UpdateCommand.ExecuteNonQuery()
+        Catch ex As Exception
+            SetAusgabe = "FEHLER " & ex.Message
+        End Try
+
+        Try
+            SetAusgabe = "UPDATE tbl_werte SET Anzahl = " & vlo_ausgabe.Wert & ", Datum = '" & vlo_ausgabe.Datum.ToString("yyy-MM-dd") & "', Bemerkung = '' WHERE ID_Werte =  " & vlo_ausgabe.ID & ";"
+            adp_KVI_mysql.UpdateCommand = New MySql.Data.MySqlClient.MySqlCommand("UPDATE tbl_werte SET Anzahl = " & vlo_ausgabe.Wert & ", Datum = '" & vlo_ausgabe.Datum.ToString("yyy-MM-dd") & "', Bemerkung = '' WHERE ID_Werte =  " & vlo_ausgabe.ID & ";", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
             adp_KVI_mysql.UpdateCommand.ExecuteNonQuery()
         Catch ex As Exception
             SetAusgabe = "FEHLER " & ex.Message
