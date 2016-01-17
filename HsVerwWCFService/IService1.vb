@@ -33,7 +33,7 @@ Public Interface IService1
     <OperationContract()>
     Function GetVarVerbrauchKat() As IEnumerable(Of VarVerbrauchKat)
     <OperationContract()>
-    Function SetVerbrauch(ByVal vlo_verbrauch As Verbrauch) As Boolean
+    Function SetVerbrauch(ByVal vlo_verbrauch As Verbrauch) As String
     <OperationContract()>
     Function SetAusgabe(ByVal vlo_ausgabe As Ausgabe) As String
     <OperationContract()>

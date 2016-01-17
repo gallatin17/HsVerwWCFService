@@ -443,7 +443,7 @@ Public Class Service1
 
     End Function
 
-    Public Function SetVerbrauch(ByVal vlo_verbrauch As IService1.Verbrauch) As Boolean Implements IService1.SetVerbrauch
+    Public Function SetVerbrauch(ByVal vlo_verbrauch As IService1.Verbrauch) As String Implements IService1.SetVerbrauch
         Dim Conn As MySql.Data.MySqlClient.MySqlConnection
         Dim myconnstring As String = ""
 
@@ -465,7 +465,7 @@ Public Class Service1
 
         adp_KVI_mysql.Dispose()
         Conn.Close()
-        Return True
+
     End Function
     Public Function SetEinnahme(ByVal vlo_einnahme As IService1.Einnahme) As String Implements IService1.SetEinnahme
         Dim Conn As MySql.Data.MySqlClient.MySqlConnection
