@@ -1,4 +1,5 @@
 ﻿' HINWEIS: Mit dem Befehl "Umbenennen" im Kontextmenü können Sie den Klassennamen "Service1" sowohl im Code als auch in der SVC-Datei und der Konfigurationsdatei ändern.
+Imports System.String
 Public Class Service1
     Implements IService1
 
@@ -34,7 +35,7 @@ Public Class Service1
             vlo_verbrauch.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_verbrauch.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_verbrauch.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
-            vlo_verbrauch.Bemerkung = vlo_row.Item("Bemerkung")
+            vlo_verbrauch.Bemerkung = IIf(IsNullOrEmpty(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
             vlo_gesamtverbrauch.Add(vlo_verbrauch)
         Next
         Conn.Close()
@@ -71,7 +72,7 @@ Public Class Service1
             vlo_ausgabe.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_ausgabe.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_ausgabe.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
-            vlo_ausgabe.Bemerkung = vlo_row.Item("Bemerkung")
+            vlo_ausgabe.Bemerkung = IIf(IsNullOrEmpty(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
             vlo_gesamtausgaben.Add(vlo_ausgabe)
         Next
         Conn.Close()
@@ -108,7 +109,7 @@ Public Class Service1
             vlo_einnahme.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_einnahme.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_einnahme.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
-            vlo_einnahme.Bemerkung = vlo_row.Item("Bemerkung")
+            vlo_einnahme.Bemerkung = IIf(IsNullOrEmpty(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
             vlo_gesamteinnahmen.Add(vlo_einnahme)
         Next
         Conn.Close()
@@ -145,7 +146,7 @@ Public Class Service1
             vlo_verbrauch.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_verbrauch.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_verbrauch.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
-            vlo_verbrauch.Bemerkung = vlo_row.Item("Bemerkung")
+            vlo_verbrauch.Bemerkung = IIf(IsNullOrEmpty(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
             vlo_gesamtverbrauch.Add(vlo_verbrauch)
         Next
         Conn.Close()
@@ -182,7 +183,7 @@ Public Class Service1
             vlo_verbrauch.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_verbrauch.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_verbrauch.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
-            vlo_verbrauch.Bemerkung = vlo_row.Item("Bemerkung")
+            vlo_verbrauch.Bemerkung = IIf(IsNullOrEmpty(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
 
             vlo_gesamtverbrauch.Add(vlo_verbrauch)
         Next
@@ -248,7 +249,7 @@ Public Class Service1
             vlo_ausgabe.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_ausgabe.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_ausgabe.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
-            vlo_ausgabe.Bemerkung = vlo_row.Item("Bemerkung")
+            vlo_ausgabe.Bemerkung = IIf(IsNullOrEmpty(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
             vlo_gesamtausgabe.Add(vlo_ausgabe)
         Next
         Conn.Close()
@@ -284,7 +285,7 @@ Public Class Service1
             vlo_verbrauch.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_verbrauch.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_verbrauch.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
-            vlo_verbrauch.Bemerkung = vlo_row.Item("Bemerkung")
+            vlo_verbrauch.Bemerkung = IIf(IsNullOrEmpty(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
         Next
         Conn.Close()
         Return vlo_verbrauch
@@ -319,7 +320,7 @@ Public Class Service1
             vlo_ausgabe.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_ausgabe.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_ausgabe.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
-            vlo_ausgabe.Bemerkung = vlo_row.Item("Bemerkung")
+            vlo_ausgabe.Bemerkung = IIf(IsNullOrEmpty(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
         Next
         Conn.Close()
         Return vlo_ausgabe
@@ -355,7 +356,7 @@ Public Class Service1
             vlo_einnahme.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_einnahme.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_einnahme.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
-            vlo_einnahme.Bemerkung = vlo_row.Item("Bemerkung")
+            vlo_einnahme.Bemerkung = IIf(IsNullOrEmpty(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
 
         Next
         Conn.Close()
@@ -924,11 +925,11 @@ Public Class Service1
                                     vlo_anzahl = vlo_neuerwert - vlo_alterwert
 
                                     adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT Preis FROM tbl_verbrauchspreis WHERE Beginn <= '" & CDate(vlo_row.Item("Datum")).ToString("yyy-M-d HH:mm:ss") & "' AND Haushaltsunterkategorie_ID = " & vlo_row.Item("Haushaltsunterkategorie_ID") & " ORDER BY Beginn DESC LIMIT 1;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
-                                        adp_KVI_mysql.Fill(get_preis)
+                                    adp_KVI_mysql.Fill(get_preis)
 
-                                        For Each vlo_row_preis In get_preis.Tables(0).Rows
-                                            vlo_preis = vlo_row_preis.Item("Preis")
-                                        Next
+                                    For Each vlo_row_preis In get_preis.Tables(0).Rows
+                                        vlo_preis = vlo_row_preis.Item("Preis")
+                                    Next
 
                                     wertprojahr = wertprojahr + (vlo_anzahl * vlo_preis)
 
