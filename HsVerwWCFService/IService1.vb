@@ -182,6 +182,16 @@ Public Interface IService1
             End Set
         End Property
 
+        Private _bemerkung As String
+        <DataMember> Public Property Bemerkung As String
+            Get
+                Return _bemerkung
+            End Get
+            Set(value As String)
+                _bemerkung = value
+            End Set
+        End Property
+
     End Class
 
     <DataContract(Name:="Verbrauch")> Class Verbrauch
@@ -209,6 +219,21 @@ Public Interface IService1
             End Get
             Set(value As String)
                 _ausgabentyp = value
+            End Set
+        End Property
+
+    End Class
+
+    <DataContract(Name:="Einnahme")> Class Einnahme
+        Inherits Basis
+
+        Private _einnahmentyp As String
+        <DataMember> Public Property Einnahmentyp As String
+            Get
+                Return _einnahmentyp
+            End Get
+            Set(value As String)
+                _einnahmentyp = value
             End Set
         End Property
 
@@ -253,21 +278,6 @@ Public Interface IService1
             End Get
             Set(value As Long)
                 _haushaltskategorieid = value
-            End Set
-        End Property
-
-    End Class
-
-    <DataContract(Name:="Einnahme")> Class Einnahme
-        Inherits Basis
-
-        Private _einnahmentyp As String
-        <DataMember> Public Property Einnahmentyp As String
-            Get
-                Return _einnahmentyp
-            End Get
-            Set(value As String)
-                _einnahmentyp = value
             End Set
         End Property
 

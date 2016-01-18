@@ -15,7 +15,7 @@ Public Class Service1
         Conn.Open()
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
         Dim get_daten As New Data.DataSet
-        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND (Haushaltskategorie_ID = 1 OR Haushaltskategorie_ID = 4) ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte,Bemerkung, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND (Haushaltskategorie_ID = 1 OR Haushaltskategorie_ID = 4) ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
         adp_KVI_mysql.Fill(get_daten)
 
         adp_KVI_mysql.Dispose()
@@ -34,6 +34,7 @@ Public Class Service1
             vlo_verbrauch.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_verbrauch.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_verbrauch.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
+            vlo_verbrauch.Bemerkung = vlo_row.Item("Bemerkung")
             vlo_gesamtverbrauch.Add(vlo_verbrauch)
         Next
         Conn.Close()
@@ -51,7 +52,7 @@ Public Class Service1
 
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
         Dim get_daten As New Data.DataSet
-        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND (Haushaltskategorie_ID = 2 OR Haushaltskategorie_ID = 5) ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte,Bemerkung, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND (Haushaltskategorie_ID = 2 OR Haushaltskategorie_ID = 5) ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
         adp_KVI_mysql.Fill(get_daten)
 
         adp_KVI_mysql.Dispose()
@@ -70,6 +71,7 @@ Public Class Service1
             vlo_ausgabe.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_ausgabe.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_ausgabe.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
+            vlo_ausgabe.Bemerkung = vlo_row.Item("Bemerkung")
             vlo_gesamtausgaben.Add(vlo_ausgabe)
         Next
         Conn.Close()
@@ -87,7 +89,7 @@ Public Class Service1
 
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
         Dim get_daten As New Data.DataSet
-        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND Haushaltskategorie_ID = 3 ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte,Bemerkung, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND Haushaltskategorie_ID = 3 ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
         adp_KVI_mysql.Fill(get_daten)
 
         adp_KVI_mysql.Dispose()
@@ -106,6 +108,7 @@ Public Class Service1
             vlo_einnahme.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_einnahme.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_einnahme.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
+            vlo_einnahme.Bemerkung = vlo_row.Item("Bemerkung")
             vlo_gesamteinnahmen.Add(vlo_einnahme)
         Next
         Conn.Close()
@@ -123,7 +126,7 @@ Public Class Service1
 
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
         Dim get_daten As New Data.DataSet
-        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND Haushaltskategorie_ID = " & verbrauchstyp & " ORDER BY Haushaltsunterkategorie_ID, Datum;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte, Bemerkung, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND Haushaltskategorie_ID = " & verbrauchstyp & " ORDER BY Haushaltsunterkategorie_ID, Datum;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
         adp_KVI_mysql.Fill(get_daten)
 
         adp_KVI_mysql.Dispose()
@@ -142,6 +145,7 @@ Public Class Service1
             vlo_verbrauch.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_verbrauch.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_verbrauch.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
+            vlo_verbrauch.Bemerkung = vlo_row.Item("Bemerkung")
             vlo_gesamtverbrauch.Add(vlo_verbrauch)
         Next
         Conn.Close()
@@ -159,7 +163,7 @@ Public Class Service1
 
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
         Dim get_daten As New Data.DataSet
-        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND Haushaltsunterkategorie_ID = " & verbrauchsuntertyp & " ORDER BY Datum;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte, Bemerkung, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND Haushaltsunterkategorie_ID = " & verbrauchsuntertyp & " ORDER BY Datum;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
         adp_KVI_mysql.Fill(get_daten)
 
         adp_KVI_mysql.Dispose()
@@ -178,6 +182,8 @@ Public Class Service1
             vlo_verbrauch.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_verbrauch.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_verbrauch.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
+            vlo_verbrauch.Bemerkung = vlo_row.Item("Bemerkung")
+
             vlo_gesamtverbrauch.Add(vlo_verbrauch)
         Next
         Conn.Close()
@@ -223,7 +229,7 @@ Public Class Service1
 
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
         Dim get_daten As New Data.DataSet
-        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND Haushaltskategorie_ID = " & ausgabentyp & " ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte, Bemerkung, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND Haushaltskategorie_ID = " & ausgabentyp & " ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
         adp_KVI_mysql.Fill(get_daten)
 
         adp_KVI_mysql.Dispose()
@@ -242,6 +248,7 @@ Public Class Service1
             vlo_ausgabe.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_ausgabe.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_ausgabe.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
+            vlo_ausgabe.Bemerkung = vlo_row.Item("Bemerkung")
             vlo_gesamtausgabe.Add(vlo_ausgabe)
         Next
         Conn.Close()
@@ -258,7 +265,7 @@ Public Class Service1
 
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
         Dim get_daten As New Data.DataSet
-        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND ID_Werte = " & ID & " ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte, Bemerkung, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND ID_Werte = " & ID & " ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
         adp_KVI_mysql.Fill(get_daten)
 
         adp_KVI_mysql.Dispose()
@@ -277,6 +284,7 @@ Public Class Service1
             vlo_verbrauch.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_verbrauch.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_verbrauch.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
+            vlo_verbrauch.Bemerkung = vlo_row.Item("Bemerkung")
         Next
         Conn.Close()
         Return vlo_verbrauch
@@ -292,7 +300,7 @@ Public Class Service1
 
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
         Dim get_daten As New Data.DataSet
-        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND ID_Werte = " & ID & " ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte, Bemerkung, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND ID_Werte = " & ID & " ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
         adp_KVI_mysql.Fill(get_daten)
 
         adp_KVI_mysql.Dispose()
@@ -311,7 +319,7 @@ Public Class Service1
             vlo_ausgabe.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_ausgabe.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_ausgabe.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
-
+            vlo_ausgabe.Bemerkung = vlo_row.Item("Bemerkung")
         Next
         Conn.Close()
         Return vlo_ausgabe
@@ -328,7 +336,7 @@ Public Class Service1
 
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
         Dim get_daten As New Data.DataSet
-        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND ID_Werte = " & ID & " ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte, Bemerkung, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND ID_Werte = " & ID & " ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
         adp_KVI_mysql.Fill(get_daten)
 
         adp_KVI_mysql.Dispose()
@@ -347,6 +355,7 @@ Public Class Service1
             vlo_einnahme.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_einnahme.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_einnahme.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
+            vlo_einnahme.Bemerkung = vlo_row.Item("Bemerkung")
 
         Next
         Conn.Close()
@@ -456,8 +465,8 @@ Public Class Service1
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
 
         Try
-            SetVerbrauch = "UPDATE tbl_werte SET Haushaltsunterkategorie_ID = " & vlo_verbrauch.HaushaltsunterkategorieID & ", Anzahl = " & vlo_verbrauch.Wert & ", Datum = '" & vlo_verbrauch.Datum.ToString("yyy-MM-dd") & "', Bemerkung = '' WHERE ID_Werte =  " & vlo_verbrauch.ID & ";"
-            adp_KVI_mysql.UpdateCommand = New MySql.Data.MySqlClient.MySqlCommand("UPDATE tbl_werte SET Haushaltsunterkategorie_ID = " & vlo_verbrauch.HaushaltsunterkategorieID & ", Anzahl = " & vlo_verbrauch.Wert & ", Datum = '" & vlo_verbrauch.Datum.ToString("yyy-MM-dd") & "', Bemerkung = '' WHERE ID_Werte =  " & vlo_verbrauch.ID & ";", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+            SetVerbrauch = "UPDATE tbl_werte SET Haushaltsunterkategorie_ID = " & vlo_verbrauch.HaushaltsunterkategorieID & ", Anzahl = " & vlo_verbrauch.Wert & ", Datum = '" & vlo_verbrauch.Datum.ToString("yyy-MM-dd") & "', Bemerkung = '" & IIf(IsNothing(vlo_verbrauch.Bemerkung), "", vlo_verbrauch.Bemerkung) & "' WHERE ID_Werte =  " & vlo_verbrauch.ID & ";"
+            adp_KVI_mysql.UpdateCommand = New MySql.Data.MySqlClient.MySqlCommand("UPDATE tbl_werte SET Haushaltsunterkategorie_ID = " & vlo_verbrauch.HaushaltsunterkategorieID & ", Anzahl = " & vlo_verbrauch.Wert & ", Datum = '" & vlo_verbrauch.Datum.ToString("yyy-MM-dd") & "', Bemerkung = '" & IIf(IsNothing(vlo_verbrauch.Bemerkung), "", vlo_verbrauch.Bemerkung) & "' WHERE ID_Werte =  " & vlo_verbrauch.ID & ";", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
             adp_KVI_mysql.UpdateCommand.ExecuteNonQuery()
         Catch ex As Exception
             SetVerbrauch = "FEHLER " & ex.Message
@@ -488,8 +497,8 @@ Public Class Service1
         End Try
 
         Try
-            SetEinnahme = "UPDATE tbl_werte SET Anzahl = " & vlo_einnahme.Wert & ", Bemerkung = '' WHERE ID_Werte =  " & vlo_einnahme.ID & ";"
-            adp_KVI_mysql.UpdateCommand = New MySql.Data.MySqlClient.MySqlCommand("UPDATE tbl_werte SET Haushaltsunterkategorie_ID = " & vlo_einnahme.HaushaltsunterkategorieID & ", Anzahl = " & vlo_einnahme.Wert & ", Datum = '" & vlo_einnahme.Datum.ToString("yyy-MM-dd") & "', Bemerkung = '' WHERE ID_Werte =  " & vlo_einnahme.ID & ";", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+            SetEinnahme = "UPDATE tbl_werte SET Anzahl = " & vlo_einnahme.Wert & ", Bemerkung = '" & IIf(IsNothing(vlo_einnahme.Bemerkung), "", vlo_einnahme.Bemerkung) & "' WHERE ID_Werte =  " & vlo_einnahme.ID & ";"
+            adp_KVI_mysql.UpdateCommand = New MySql.Data.MySqlClient.MySqlCommand("UPDATE tbl_werte SET Haushaltsunterkategorie_ID = " & vlo_einnahme.HaushaltsunterkategorieID & ", Anzahl = " & vlo_einnahme.Wert & ", Datum = '" & vlo_einnahme.Datum.ToString("yyy-MM-dd") & "', Bemerkung = '" & IIf(IsNothing(vlo_einnahme.Bemerkung), "", vlo_einnahme.Bemerkung) & "' WHERE ID_Werte =  " & vlo_einnahme.ID & ";", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
             adp_KVI_mysql.UpdateCommand.ExecuteNonQuery()
         Catch ex As Exception
             SetEinnahme = "FEHLER " & ex.Message
@@ -535,8 +544,8 @@ Public Class Service1
         End Try
 
         Try
-            SetAusgabe = "UPDATE tbl_werte SET Anzahl = " & vlo_ausgabe.Wert & ", Datum = '" & vlo_ausgabe.Datum.ToString("yyy-MM-dd") & "', Bemerkung = '' WHERE ID_Werte =  " & vlo_ausgabe.ID & ";"
-            adp_KVI_mysql.UpdateCommand = New MySql.Data.MySqlClient.MySqlCommand("UPDATE tbl_werte SET Anzahl = " & vlo_ausgabe.Wert & ", Datum = '" & vlo_ausgabe.Datum.ToString("yyy-MM-dd") & "', Bemerkung = '' WHERE ID_Werte =  " & vlo_ausgabe.ID & ";", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+            SetAusgabe = "UPDATE tbl_werte SET Anzahl = " & vlo_ausgabe.Wert & ", Datum = '" & vlo_ausgabe.Datum.ToString("yyy-MM-dd") & "', Bemerkung = '" & IIf(IsNothing(vlo_ausgabe.Bemerkung), "", vlo_ausgabe.Bemerkung) & "' WHERE ID_Werte =  " & vlo_ausgabe.ID & ";"
+            adp_KVI_mysql.UpdateCommand = New MySql.Data.MySqlClient.MySqlCommand("UPDATE tbl_werte SET Anzahl = " & vlo_ausgabe.Wert & ", Datum = '" & vlo_ausgabe.Datum.ToString("yyy-MM-dd") & "', Bemerkung = '" & IIf(IsNothing(vlo_ausgabe.Bemerkung), "", vlo_ausgabe.Bemerkung) & "' WHERE ID_Werte =  " & vlo_ausgabe.ID & ";", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
             adp_KVI_mysql.UpdateCommand.ExecuteNonQuery()
         Catch ex As Exception
             SetAusgabe = "FEHLER " & ex.Message
@@ -577,7 +586,7 @@ Public Class Service1
         adp_KVI_mysql.Fill(get_daten)
 
         vlo_id = get_daten.Tables(0).Rows(0).Item("MAXID") + 1
-        adp_KVI_mysql.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand("INSERT INTO tbl_werte (ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Bemerkung) VALUES(" & vlo_id & "," & vlo_verbrauch.HaushaltsunterkategorieID & "," & vlo_verbrauch.Wert & ",'" & vlo_verbrauch.Datum.ToString("yyy-MM-dd") & "','');", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand("INSERT INTO tbl_werte (ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Bemerkung) VALUES(" & vlo_id & "," & vlo_verbrauch.HaushaltsunterkategorieID & "," & vlo_verbrauch.Wert & ",'" & vlo_verbrauch.Datum.ToString("yyy-MM-dd") & "','" & IIf(IsNothing(vlo_verbrauch.Bemerkung), "", vlo_verbrauch.Bemerkung) & "');", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
         adp_KVI_mysql.InsertCommand.ExecuteNonQuery()
 
         adp_KVI_mysql.Dispose()
@@ -631,7 +640,7 @@ Public Class Service1
         vlo_id2 = get_daten.Tables(0).Rows(0).Item("MAXID") + 1
 
         Try
-            SetAusgabeNew = "INSERT INTO tbl_werte (ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Bemerkung) VALUES(" & vlo_id2 & "," & vlo_id1 & "," & vlo_ausgabe.Wert & ",'" & vlo_ausgabe.Datum.ToString("yyy-MM-dd") & "','');"
+            SetAusgabeNew = "INSERT INTO tbl_werte (ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Bemerkung) VALUES(" & vlo_id2 & "," & vlo_id1 & "," & vlo_ausgabe.Wert & ",'" & vlo_ausgabe.Datum.ToString("yyy-MM-dd") & "','" & IIf(IsNothing(vlo_ausgabe.Bemerkung), "", vlo_ausgabe.Bemerkung) & "');"
             adp_KVI_mysql.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand(SetAusgabeNew, CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
             adp_KVI_mysql.InsertCommand.ExecuteNonQuery()
         Catch ex As Exception
@@ -691,7 +700,7 @@ Public Class Service1
         vlo_id2 = get_daten.Tables(0).Rows(0).Item("MAXID") + 1
 
         Try
-            SetEinnahmeNew = "INSERT INTO tbl_werte (ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Bemerkung) VALUES(" & vlo_id2 & "," & vlo_id1 & "," & vlo_einnahme.Wert & ",'" & vlo_einnahme.Datum.ToString("yyy-MM-dd") & "','');"
+            SetEinnahmeNew = "INSERT INTO tbl_werte (ID_Werte, Haushaltsunterkategorie_ID, Anzahl, Datum, Bemerkung) VALUES(" & vlo_id2 & "," & vlo_id1 & "," & vlo_einnahme.Wert & ",'" & vlo_einnahme.Datum.ToString("yyy-MM-dd") & "','" & IIf(IsNothing(vlo_einnahme.Bemerkung), "", vlo_einnahme.Bemerkung) & "');"
             adp_KVI_mysql.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand(SetEinnahmeNew, CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
             adp_KVI_mysql.InsertCommand.ExecuteNonQuery()
         Catch ex As Exception
