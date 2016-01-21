@@ -124,7 +124,7 @@ Public Class Service1
             vlo_ausgabe.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_ausgabe.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_ausgabe.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
-            vlo_ausgabe.Bemerkung = IIf(IsNullOrEmpty(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
+            vlo_ausgabe.Bemerkung = IIf(IsDBNull(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
             vlo_gesamtausgaben.Add(vlo_ausgabe)
         Next
         Conn.Close()
@@ -161,7 +161,7 @@ Public Class Service1
             vlo_einnahme.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_einnahme.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_einnahme.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
-            vlo_einnahme.Bemerkung = IIf(IsNullOrEmpty(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
+            vlo_einnahme.Bemerkung = IIf(IsDBNull(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
             vlo_gesamteinnahmen.Add(vlo_einnahme)
         Next
         Conn.Close()
@@ -198,7 +198,7 @@ Public Class Service1
             vlo_verbrauch.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_verbrauch.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_verbrauch.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
-            vlo_verbrauch.Bemerkung = IIf(IsNullOrEmpty(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
+            vlo_verbrauch.Bemerkung = IIf(IsDBNull(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
             vlo_gesamtverbrauch.Add(vlo_verbrauch)
         Next
         Conn.Close()
@@ -235,7 +235,7 @@ Public Class Service1
             vlo_verbrauch.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_verbrauch.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_verbrauch.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
-            vlo_verbrauch.Bemerkung = IIf(IsNullOrEmpty(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
+            vlo_verbrauch.Bemerkung = IIf(IsDBNull(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
 
             vlo_gesamtverbrauch.Add(vlo_verbrauch)
         Next
@@ -301,7 +301,7 @@ Public Class Service1
             vlo_ausgabe.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_ausgabe.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_ausgabe.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
-            vlo_ausgabe.Bemerkung = IIf(IsNullOrEmpty(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
+            vlo_ausgabe.Bemerkung = IIf(IsDBNull(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
             vlo_gesamtausgabe.Add(vlo_ausgabe)
         Next
         Conn.Close()
@@ -337,7 +337,7 @@ Public Class Service1
             vlo_verbrauch.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_verbrauch.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_verbrauch.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
-            vlo_verbrauch.Bemerkung = IIf(IsNullOrEmpty(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
+            vlo_verbrauch.Bemerkung = IIf(IsDBNull(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
         Next
         Conn.Close()
         Return vlo_verbrauch
@@ -372,7 +372,7 @@ Public Class Service1
             vlo_ausgabe.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_ausgabe.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_ausgabe.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
-            vlo_ausgabe.Bemerkung = IIf(IsNullOrEmpty(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
+            vlo_ausgabe.Bemerkung = IIf(IsDBNull(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
         Next
         Conn.Close()
         Return vlo_ausgabe
@@ -408,7 +408,7 @@ Public Class Service1
             vlo_einnahme.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_einnahme.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_einnahme.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
-            vlo_einnahme.Bemerkung = IIf(IsNullOrEmpty(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
+            vlo_einnahme.Bemerkung = IIf(IsDBNull(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
 
         Next
         Conn.Close()
