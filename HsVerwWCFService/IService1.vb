@@ -207,6 +207,26 @@ Public Interface IService1
             End Set
         End Property
 
+        Private _kosten As Decimal
+        <DataMember> Public Property Kosten As Decimal
+            Get
+                Return _kosten
+            End Get
+            Set(value As Decimal)
+                _kosten = value
+            End Set
+        End Property
+
+        Private _monat As String
+        <DataMember> Public Property Monat As String
+            Get
+                Return _monat
+            End Get
+            Set(value As String)
+                _monat = value
+            End Set
+        End Property
+
     End Class
 
     <DataContract(Name:="Ausgabe")> Class Ausgabe

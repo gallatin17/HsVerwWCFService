@@ -10,19 +10,68 @@ Public Class Service1
         Dim Conn As MySql.Data.MySqlClient.MySqlConnection
         Dim vlo_gesamtverbrauch As New List(Of IService1.Verbrauch)
         Dim myconnstring As String = ""
+        Dim vlo_haushaltsunterkategorieid As Integer = 0
+        Dim vlo_rowcount As Integer = 0
+        Dim vlo_alterwert As Integer = 0
+        Dim vlo_neuerwert As Integer = 0
+        Dim vlo_anzahl As Integer = 0
+        Dim vlo_gesamtzahl As Integer = 0
+        Dim vlo_preis As Decimal = 0
+
+        Dim get_preis As New Data.DataSet
 
         myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
         Dim get_daten As New Data.DataSet
-        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte,Bemerkung, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND (Haushaltskategorie_ID = 1 OR Haushaltskategorie_ID = 4) ORDER BY Haushaltsunterkategorie_ID;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT ID_Werte,Bemerkung, Haushaltsunterkategorie_ID, Anzahl, Datum, Haushaltsunterkategorie,Haushaltsunterkategorie_ID, Haushaltskategorie, Haushaltskategorie_ID, Rythmusfaktor, ID_Zahlungsrythmus, Zahlungsrythmus, Einheit, ID_Einheit FROM tbl_werte, tbl_haushaltskategorie, tbl_haushaltsunterkategorie, tbl_zahlungsrythmus, tbl_einheit WHERE Einheit_ID = ID_Einheit AND Zahlungsrythmus_ID = ID_Zahlungsrythmus AND Haushaltsunterkategorie_ID = ID_Haushaltsunterkategorie AND ID_Haushaltskategorie = Haushaltskategorie_ID AND (Haushaltskategorie_ID = 1 OR Haushaltskategorie_ID = 4) ORDER BY Haushaltsunterkategorie_ID, Datum;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
         adp_KVI_mysql.Fill(get_daten)
 
         adp_KVI_mysql.Dispose()
 
         For Each vlo_row As DataRow In get_daten.Tables(0).Rows
             Dim vlo_verbrauch As New IService1.Verbrauch
+
+            'bei Wechsel Haushaltsunterkategorien (Verbrauchsarten) neu initialisieren
+            If vlo_haushaltsunterkategorieid <> vlo_row.Item("Haushaltsunterkategorie_ID") And vlo_haushaltsunterkategorieid <> 0 Then
+                vlo_alterwert = 0
+                vlo_rowcount = 0
+                vlo_neuerwert = 0
+                vlo_anzahl = 0
+            End If
+
+            vlo_haushaltsunterkategorieid = vlo_row.Item("Haushaltsunterkategorie_ID")
+
+            If vlo_rowcount = 0 Then
+                vlo_rowcount = vlo_rowcount + 1
+                vlo_alterwert = vlo_neuerwert
+                vlo_neuerwert = vlo_row.Item("Anzahl")
+            Else
+                vlo_rowcount = vlo_rowcount + 1
+                vlo_alterwert = vlo_neuerwert
+                vlo_neuerwert = vlo_row.Item("Anzahl")
+
+                vlo_anzahl = vlo_neuerwert - vlo_alterwert
+
+                adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT Preis FROM tbl_verbrauchspreis WHERE Beginn <= '" & CDate(vlo_row.Item("Datum")).ToString("yyy-M-d HH:mm:ss") & "' AND Haushaltsunterkategorie_ID = " & vlo_row.Item("Haushaltsunterkategorie_ID") & " ORDER BY Beginn DESC LIMIT 1;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+                adp_KVI_mysql.Fill(get_preis)
+
+                For Each vlo_row_preis In get_preis.Tables(0).Rows
+                    vlo_preis = vlo_row_preis.Item("Preis")
+                Next
+
+                vlo_verbrauch.Kosten = CommercialRound((vlo_anzahl * vlo_preis), 2)
+
+                Select Case CDate(vlo_row.Item("Datum")).Month
+                    Case 1 'Wenn 01.01. abgelesen, dann Verbrauch für Dezemeber, also 12
+                        vlo_verbrauch.Monat = MonthName(12)
+                    Case Else
+                        vlo_verbrauch.Monat = MonthName(CDate(vlo_row.Item("Datum")).Month - 1)
+                End Select
+
+            End If
+
             vlo_verbrauch.ID = vlo_row.Item("ID_Werte")
             vlo_verbrauch.Wert = vlo_row.Item("Anzahl")
             vlo_verbrauch.Datum = vlo_row.Item("Datum")
@@ -35,10 +84,13 @@ Public Class Service1
             vlo_verbrauch.Zahlungsrythmus = vlo_row.Item("Zahlungsrythmus")
             vlo_verbrauch.Zahlungsrythmusfaktor = vlo_row.Item("Rythmusfaktor")
             vlo_verbrauch.ZahlungsrythmusID = vlo_row.Item("ID_Zahlungsrythmus")
-            vlo_verbrauch.Bemerkung = IIf(IsNullOrEmpty(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
+            vlo_verbrauch.Bemerkung = IIf(IsDBNull(vlo_row.Item("Bemerkung")), "", vlo_row.Item("Bemerkung"))
             vlo_gesamtverbrauch.Add(vlo_verbrauch)
+
         Next
+
         Conn.Close()
+
         Return vlo_gesamtverbrauch
 
     End Function
