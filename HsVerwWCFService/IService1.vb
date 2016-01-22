@@ -58,6 +58,8 @@ Public Interface IService1
     Function GetAuswertung() As Auswertung
     <OperationContract()>
     Function GetEinnahmebyID(ByVal ID As Long) As Einnahme
+    <OperationContract()>
+    Function GetAnalyseJahre() As IEnumerable(Of String)
 
     <DataContract()>
     Class Basis
@@ -214,6 +216,16 @@ Public Interface IService1
             End Get
             Set(value As Decimal)
                 _kosten = value
+            End Set
+        End Property
+
+        Private _anzahl As Double
+        <DataMember> Public Property Anzahl As Double
+            Get
+                Return _anzahl
+            End Get
+            Set(value As Double)
+                _anzahl = value
             End Set
         End Property
 

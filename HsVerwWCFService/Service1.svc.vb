@@ -47,6 +47,8 @@ Public Class Service1
                 vlo_rowcount = vlo_rowcount + 1
                 vlo_alterwert = vlo_neuerwert
                 vlo_neuerwert = vlo_row.Item("Anzahl")
+                vlo_verbrauch.Kosten = 0
+                vlo_verbrauch.Monat = ""
             Else
                 vlo_rowcount = vlo_rowcount + 1
                 vlo_alterwert = vlo_neuerwert
@@ -72,6 +74,7 @@ Public Class Service1
 
             End If
 
+            vlo_verbrauch.Anzahl = vlo_anzahl
             vlo_verbrauch.ID = vlo_row.Item("ID_Werte")
             vlo_verbrauch.Wert = vlo_row.Item("Anzahl")
             vlo_verbrauch.Datum = vlo_row.Item("Datum")
@@ -882,6 +885,29 @@ Public Class Service1
         Next
         Conn.Close()
         Return vlo_haushaltsunterkategorien
+    End Function
+
+    Public Function GetAnalyseJahre() As IEnumerable(Of String) Implements IService1.GetAnalyseJahre
+        Dim Conn As MySql.Data.MySqlClient.MySqlConnection
+        Dim vlo_analysejahre As New List(Of String)
+        Dim myconnstring As String = ""
+
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
+        Conn.Open()
+        Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
+        Dim get_daten As New Data.DataSet
+        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT DISTINCT DATE_FORMAT(Datum, '%Y') as Jahr FROM tbl_werte ORDER BY Jahr;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.Fill(get_daten)
+
+        adp_KVI_mysql.Dispose()
+
+        For Each vlo_row As DataRow In get_daten.Tables(0).Rows
+            vlo_analysejahre.Add(vlo_row.Item("Jahr"))
+        Next
+        Conn.Close()
+        Return vlo_analysejahre
+
     End Function
 
     Public Function GetAuswertung() As IService1.Auswertung Implements IService1.GetAuswertung
