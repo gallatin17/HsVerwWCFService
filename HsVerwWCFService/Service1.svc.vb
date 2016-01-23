@@ -20,7 +20,7 @@ Public Class Service1
 
         Dim get_preis As New Data.DataSet
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
@@ -102,7 +102,7 @@ Public Class Service1
         Dim vlo_gesamtausgaben As New List(Of IService1.Ausgabe)
         Dim myconnstring As String = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
 
@@ -139,7 +139,7 @@ Public Class Service1
         Dim vlo_gesamteinnahmen As New List(Of IService1.Einnahme)
         Dim myconnstring As String = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
 
@@ -176,7 +176,7 @@ Public Class Service1
         Dim vlo_gesamtverbrauch As New List(Of IService1.Verbrauch)
         Dim myconnstring As String = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
 
@@ -213,7 +213,7 @@ Public Class Service1
         Dim vlo_gesamtverbrauch As New List(Of IService1.Verbrauch)
         Dim myconnstring As String = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
 
@@ -251,7 +251,7 @@ Public Class Service1
         Dim vlo_verbrauchstypen As New List(Of IService1.Verbrauchstyp)
         Dim myconnstring As String = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
 
@@ -279,7 +279,7 @@ Public Class Service1
         Dim vlo_gesamtausgabe As New List(Of IService1.Ausgabe)
         Dim myconnstring As String = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
 
@@ -315,7 +315,7 @@ Public Class Service1
         Dim vlo_verbrauch As New IService1.Verbrauch
         Dim myconnstring As String = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
 
@@ -350,7 +350,7 @@ Public Class Service1
         Dim vlo_ausgabe As New IService1.Ausgabe
         Dim myconnstring As String = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
 
@@ -386,7 +386,7 @@ Public Class Service1
         Dim vlo_einnahme As New IService1.Einnahme
         Dim myconnstring As String = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
 
@@ -434,7 +434,7 @@ Public Class Service1
         Dim vlo_zahlungsrythmen As New List(Of IService1.Zahlungsrythmus)
         Dim myconnstring As String = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
@@ -461,7 +461,7 @@ Public Class Service1
         Dim vlo_einheiten As New List(Of IService1.Einheit)
         Dim myconnstring As String = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
@@ -487,7 +487,7 @@ Public Class Service1
         Dim vlo_varverbrauchkats As New List(Of IService1.VarVerbrauchKat)
         Dim myconnstring As String = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
@@ -514,7 +514,7 @@ Public Class Service1
 
         SetVerbrauch = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
 
@@ -538,7 +538,7 @@ Public Class Service1
 
         SetEinnahme = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
 
@@ -585,7 +585,7 @@ Public Class Service1
 
         SetAusgabe = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
 
@@ -631,7 +631,7 @@ Public Class Service1
         Dim myconnstring As String = ""
         Dim vlo_id As Long = 0
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
 
@@ -657,7 +657,7 @@ Public Class Service1
 
         SetAusgabeNew = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
 
@@ -717,7 +717,7 @@ Public Class Service1
 
         SetEinnahmeNew = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
 
@@ -773,7 +773,7 @@ Public Class Service1
         Dim Conn As MySql.Data.MySqlClient.MySqlConnection
         Dim myconnstring As String = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
 
@@ -790,7 +790,7 @@ Public Class Service1
         Dim Conn As MySql.Data.MySqlClient.MySqlConnection
         Dim myconnstring As String = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
 
@@ -813,7 +813,7 @@ Public Class Service1
         Dim Conn As MySql.Data.MySqlClient.MySqlConnection
         Dim myconnstring As String = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
 
@@ -837,7 +837,7 @@ Public Class Service1
         Dim vlo_haushaltskategorien As New List(Of IService1.Haushaltskategorie)
         Dim myconnstring As String = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
 
@@ -864,7 +864,7 @@ Public Class Service1
         Dim vlo_haushaltsunterkategorien As New List(Of IService1.Haushaltsunterkategorie)
         Dim myconnstring As String = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
 
@@ -892,7 +892,7 @@ Public Class Service1
         Dim vlo_analysejahre As New List(Of String)
         Dim myconnstring As String = ""
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
@@ -926,7 +926,7 @@ Public Class Service1
         Dim vlo_ausgabefixprojahr As Decimal = 0
         Dim vlo_einnahmen As Decimal = 0
 
-        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;Password = kieran68;User ID = dbu1145925;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
         Conn.Open()
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
