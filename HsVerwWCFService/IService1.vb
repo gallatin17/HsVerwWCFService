@@ -43,6 +43,8 @@ Public Interface IService1
     <OperationContract()>
     Function SetAusgabeNew(ByVal vlo_ausgabe As Ausgabe) As String
     <OperationContract()>
+    Function SetUserNew(ByVal vlo_user As User) As Boolean
+    <OperationContract()>
     Function SetEinnahmeNew(ByVal vlo_ausgabe As Einnahme) As String
     <OperationContract()>
     Function DeleteVerbrauch(ByVal vlo_verbrauch As Verbrauch) As Boolean
@@ -50,6 +52,8 @@ Public Interface IService1
     Function DeleteAusgabe(ByVal vlo_ausgabe As Ausgabe) As Boolean
     <OperationContract()>
     Function DeleteEinnahme(ByVal vlo_ausgabe As Einnahme) As Boolean
+    <OperationContract()>
+    Function GetUser(ByVal vlo_username As String) As User
     <OperationContract()>
     Function GetHaushaltskategorien() As IEnumerable(Of Haushaltskategorie)
     <OperationContract()>
@@ -633,6 +637,50 @@ Public Interface IService1
                 _auswertungprojahr = value
             End Set
         End Property
+    End Class
+
+    <DataContract(Name:="User")>
+    Class User
+        Private _iduser As Long
+        <DataMember> Public Property IDUser As Long
+            Get
+                Return _iduser
+            End Get
+            Set(value As Long)
+                _iduser = value
+            End Set
+        End Property
+
+        Private _hash As String
+        <DataMember> Public Property hash As String
+            Get
+                Return _hash
+            End Get
+            Set(value As String)
+                _hash = value
+            End Set
+        End Property
+
+        Private _salt As String
+        <DataMember> Public Property salt As String
+            Get
+                Return _salt
+            End Get
+            Set(value As String)
+                _salt = value
+            End Set
+        End Property
+
+        Private _username As String
+        <DataMember> Public Property username As String
+            Get
+                Return _username
+            End Get
+            Set(value As String)
+                _username = value
+            End Set
+        End Property
+
     End Class
 
 End Interface

@@ -910,6 +910,60 @@ Public Class Service1
 
     End Function
 
+    Public Function SetUserNew(ByVal vlo_user As IService1.User) As Boolean Implements IService1.SetUserNew
+        Dim Conn As MySql.Data.MySqlClient.MySqlConnection
+        Dim myconnstring As String = ""
+        Dim vlo_id As Long = 0
+
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
+        Conn.Open()
+
+        Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
+        Dim get_daten As New Data.DataSet
+
+        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT MAX(iduser) AS MAXID FROM tbl_users;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.Fill(get_daten)
+
+        vlo_id = get_daten.Tables(0).Rows(0).Item("MAXID") + 1
+
+        adp_KVI_mysql.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand("INSERT INTO tbl_users (iduser, hash, salt, username) VALUES(" & vlo_id & ",'" & vlo_user.hash & "','" & vlo_user.salt & "','" & vlo_user.username & "');", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.InsertCommand.ExecuteNonQuery()
+
+        adp_KVI_mysql.Dispose()
+        Conn.Close()
+        Return True
+    End Function
+
+    Public Function GetUser(ByVal vlo_username As String) As IService1.User Implements IService1.GetUser
+        Dim Conn As MySql.Data.MySqlClient.MySqlConnection
+        Dim vlo_user As New IService1.User
+        Dim myconnstring As String = ""
+        vlo_user.IDUser = 0
+
+        myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
+        Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
+        Conn.Open()
+
+        Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
+        Dim get_daten As New Data.DataSet
+        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT iduser, hash, salt, username FROM tbl_users WHERE username = '" & vlo_username & "';", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.Fill(get_daten)
+
+        adp_KVI_mysql.Dispose()
+
+        For Each vlo_row As DataRow In get_daten.Tables(0).Rows
+
+            vlo_user.IDUser = vlo_row.Item("iduser")
+            vlo_user.hash = vlo_row.Item("hash")
+            vlo_user.salt = vlo_row.Item("salt")
+            vlo_user.username = vlo_row.Item("username")
+
+        Next
+        Conn.Close()
+        Return vlo_user
+    End Function
+
     Public Function GetAuswertung() As IService1.Auswertung Implements IService1.GetAuswertung
         Dim Conn As MySql.Data.MySqlClient.MySqlConnection
         Dim vlo_auswertung As New IService1.Auswertung
