@@ -1,5 +1,6 @@
 ﻿' HINWEIS: Mit dem Befehl "Umbenennen" im Kontextmenü können Sie den Klassennamen "Service1" sowohl im Code als auch in der SVC-Datei und der Konfigurationsdatei ändern.
 Imports System.String
+Imports System.Net.Mail
 Public Class Service1
     Implements IService1
 
@@ -927,11 +928,46 @@ Public Class Service1
 
         vlo_id = get_daten.Tables(0).Rows(0).Item("MAXID") + 1
 
-        adp_KVI_mysql.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand("INSERT INTO tbl_users (iduser, hash, salt, username) VALUES(" & vlo_id & ",'" & vlo_user.hash & "','" & vlo_user.salt & "','" & vlo_user.username & "');", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand("INSERT INTO tbl_users (iduser, hash, salt, username, isactive) VALUES(" & vlo_id & ",'" & vlo_user.hash & "','" & vlo_user.salt & "','" & vlo_user.username & "',0);", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
         adp_KVI_mysql.InsertCommand.ExecuteNonQuery()
 
         adp_KVI_mysql.Dispose()
         Conn.Close()
+
+        Dim myCredentials As New System.Net.NetworkCredential
+        myCredentials.UserName = "gallatin17@ralfabels.de"
+        myCredentials.Password = ""
+
+        'Absenden einer Mail zur Info neuer User (Aktivierung User muss manuell erfolgen)
+        Dim eMail As New MailMessage
+
+        ' Eigenschaften der E-Mail festlegen 
+        With eMail
+            'Format der Mail
+            .IsBodyHtml = False
+            ' Absender 
+            .From = New MailAddress("gallatin17@ralfabels.de")
+            ' Empfänger 
+            .To.Add(New MailAddress("gallatin17@web.de"))
+            ' Titel der e-Mail 
+            .Subject = "Neuer Nutzer fuer HausVerwaltung"
+            ' Codierung des Texts 
+            .BodyEncoding = System.Text.Encoding.Default
+            ' Text 
+            .Body = "Ein neuer Nutzer moechte aktiviert werden. Bitte pruefe die entsprechende Tabelle"
+            ' Anhänge nach Bedarf hinzufügen (hier eine einzelne Grafik) 
+            .Attachments.Add(New Attachment("javascript:void(null);", Net.Mime.TransferEncoding.Base64))
+            ' Prioritätskennzeichnung der Mail 
+            .Priority = MailPriority.Low
+        End With
+        ' Die Mail über einen "offenen" SMTP-Server versenden 
+        Dim smtpsender As New SmtpClient
+        smtpsender.UseDefaultCredentials = False
+        smtpsender.Credentials = myCredentials
+        smtpsender.Port = 25
+        smtpsender.Host = "mail.ralfabels.de"
+        smtpsender.Send(eMail) ' MailMessage abschicken
+
         Return True
     End Function
 
@@ -947,7 +983,7 @@ Public Class Service1
 
         Dim adp_KVI_mysql As New MySql.Data.MySqlClient.MySqlDataAdapter
         Dim get_daten As New Data.DataSet
-        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT iduser, hash, salt, username FROM tbl_users WHERE username = '" & vlo_username & "';", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT iduser, hash, salt, username, isactive FROM tbl_users WHERE username = '" & vlo_username & "';", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
         adp_KVI_mysql.Fill(get_daten)
 
         adp_KVI_mysql.Dispose()
@@ -958,7 +994,7 @@ Public Class Service1
             vlo_user.hash = vlo_row.Item("hash")
             vlo_user.salt = vlo_row.Item("salt")
             vlo_user.username = vlo_row.Item("username")
-
+            vlo_user.isactive = vlo_row.Item("isactive")
         Next
         Conn.Close()
         Return vlo_user

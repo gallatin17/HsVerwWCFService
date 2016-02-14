@@ -681,6 +681,16 @@ Public Interface IService1
             End Set
         End Property
 
+        Private _isactive As Boolean
+        <DataMember> Public Property isactive As Boolean
+            Get
+                Return _isactive
+            End Get
+            Set(value As Boolean)
+                _isactive = value
+            End Set
+        End Property
+
     End Class
 
 End Interface
