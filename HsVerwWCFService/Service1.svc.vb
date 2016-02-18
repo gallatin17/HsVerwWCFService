@@ -927,7 +927,11 @@ Public Class Service1
         adp_KVI_mysql.SelectCommand = New MySql.Data.MySqlClient.MySqlCommand("SELECT MAX(iduser) AS MAXID FROM tbl_users;", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
         adp_KVI_mysql.Fill(get_daten)
 
-        vlo_id = get_daten.Tables(0).Rows(0).Item("MAXID") + 1
+        If IsDBNull(get_daten.Tables(0).Rows(0).Item("MAXID")) Then
+            vlo_id = 1
+        Else
+            vlo_id = get_daten.Tables(0).Rows(0).Item("MAXID") + 1
+        End If
 
         adp_KVI_mysql.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand("INSERT INTO tbl_users (iduser, hash, salt, username, isactive) VALUES(" & vlo_id & ",'" & vlo_user.hash & "','" & vlo_user.salt & "','" & vlo_user.username & "',0);", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
         adp_KVI_mysql.InsertCommand.ExecuteNonQuery()
