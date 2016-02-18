@@ -115,7 +115,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="cls_secrets.vb" />
     <Compile Include="Service1.svc.vb">
       <DependentUpon>Service1.svc</DependentUpon>
     </Compile>
