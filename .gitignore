@@ -210,3 +210,6 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+
+# Secrets File (Login Dtabase and MailServer)
+cls_secrets.vb
