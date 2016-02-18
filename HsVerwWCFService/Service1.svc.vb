@@ -915,6 +915,7 @@ Public Class Service1
         Dim Conn As MySql.Data.MySqlClient.MySqlConnection
         Dim myconnstring As String = ""
         Dim vlo_id As Long = 0
+        Dim vlo_smtp As New cls_secrets
 
         myconnstring = "Data Source=localhost;Database=db1145925-hausverwaltung;User ID = hausverwaltung;pooling=false;Connection Timeout = 10;Default Command Timeout = 60"
         Conn = New MySql.Data.MySqlClient.MySqlConnection(myconnstring)
@@ -935,8 +936,8 @@ Public Class Service1
         Conn.Close()
 
         Dim myCredentials As New System.Net.NetworkCredential
-        myCredentials.UserName = "gallatin17@ralfabels.de"
-        myCredentials.Password = ""
+        myCredentials.UserName = vlo_smtp.SmtpServerUser
+        myCredentials.Password = vlo_smtp.SmtpServerPwd
 
         'Absenden einer Mail zur Info neuer User (Aktivierung User muss manuell erfolgen)
         Dim eMail As New MailMessage
@@ -965,7 +966,7 @@ Public Class Service1
         smtpsender.UseDefaultCredentials = False
         smtpsender.Credentials = myCredentials
         smtpsender.Port = 25
-        smtpsender.Host = "mail.ralfabels.de"
+        smtpsender.Host = vlo_smtp.SmtpServer
         smtpsender.Send(eMail) ' MailMessage abschicken
 
         Return True
