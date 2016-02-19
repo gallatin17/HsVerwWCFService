@@ -932,11 +932,16 @@ Public Class Service1
         adp_KVI_mysql.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand("INSERT INTO tbl_users (iduser, hash, salt, username, isactive) VALUES(" & vlo_id & ",'" & vlo_user.hash & "','" & vlo_user.salt & "','" & vlo_user.username & "',0);", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
         adp_KVI_mysql.InsertCommand.ExecuteNonQuery()
 
-        adp_KVI_mysql.Dispose()
-        Conn.Close()
-
         Dim myCredentials As New System.Net.NetworkCredential
-        myCredentials.UserName = vlo_smtp.SmtpServerUser
+
+        adp_KVI_mysql.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand("INSERT INTO tbl_users (iduser, hash, salt, username, isactive) VALUES(" & vlo_id + 1 & ",'Vor SMTPServer Infos " & vlo_smtp.SmtpServerUser & "','" & vlo_user.salt & "','" & vlo_user.username & "',0);", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.InsertCommand.ExecuteNonQuery()
+
+        myCredentials.UserName = "gallatin17" 'vlo_smtp.SmtpServerUser
+
+        adp_KVI_mysql.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand("INSERT INTO tbl_users (iduser, hash, salt, username, isactive) VALUES(" & vlo_id + 1 & ",'Vor SMTPServer Infos " & vlo_smtp.SmtpServerPwd & "','" & vlo_user.salt & "','" & vlo_user.username & "',0);", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+        adp_KVI_mysql.InsertCommand.ExecuteNonQuery()
+
         myCredentials.Password = vlo_smtp.SmtpServerPwd
 
         'Absenden einer Mail zur Info neuer User (Aktivierung User muss manuell erfolgen)
@@ -947,8 +952,14 @@ Public Class Service1
             'Format der Mail
             .IsBodyHtml = False
             ' Absender 
+            adp_KVI_mysql.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand("INSERT INTO tbl_users (iduser, hash, salt, username, isactive) VALUES(" & vlo_id + 1 & ",'Vor Absender','" & vlo_user.salt & "','" & vlo_user.username & "',0);", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+            adp_KVI_mysql.InsertCommand.ExecuteNonQuery()
+
             .From = New MailAddress("gallatin17@ralfabels.de")
             ' Empfänger 
+            adp_KVI_mysql.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand("INSERT INTO tbl_users (iduser, hash, salt, username, isactive) VALUES(" & vlo_id + 1 & ",'Vor Empfänger','" & vlo_user.salt & "','" & vlo_user.username & "',0);", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+            adp_KVI_mysql.InsertCommand.ExecuteNonQuery()
+
             .To.Add(New MailAddress("gallatin17@web.de"))
             ' Titel der e-Mail 
             .Subject = "Neuer Nutzer fuer HausVerwaltung"
@@ -957,6 +968,8 @@ Public Class Service1
             ' Text 
             .Body = "Ein neuer Nutzer moechte aktiviert werden. Bitte pruefe die entsprechende Tabelle"
             ' Anhänge nach Bedarf hinzufügen (hier eine einzelne Grafik) 
+            adp_KVI_mysql.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand("INSERT INTO tbl_users (iduser, hash, salt, username, isactive) VALUES(" & vlo_id + 1 & ",'Vor Anhang','" & vlo_user.salt & "','" & vlo_user.username & "',0);", CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
+            adp_KVI_mysql.InsertCommand.ExecuteNonQuery()
             .Attachments.Add(New Attachment("javascript:void(null);", Net.Mime.TransferEncoding.Base64))
             ' Prioritätskennzeichnung der Mail 
             .Priority = MailPriority.Low
@@ -967,7 +980,12 @@ Public Class Service1
         smtpsender.Credentials = myCredentials
         smtpsender.Port = 25
         smtpsender.Host = vlo_smtp.SmtpServer
+
         smtpsender.Send(eMail) ' MailMessage abschicken
+
+        adp_KVI_mysql.Dispose()
+        Conn.Close()
+
 
         Return True
     End Function
