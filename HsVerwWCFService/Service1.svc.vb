@@ -674,7 +674,7 @@ Public Class Service1
         vlo_id1 = get_daten.Tables(0).Rows(0).Item("MAXID") + 1
 
         Try
-            SetAusgabeNew = "INSERT INTO tbl_haushaltsunterkategorie (ID_Haushaltsunterkategorie, Haushaltsunterkategorie, Haushaltskategorie_ID, Einheit_ID, Zahlungsrythmus_ID,Bemerkung) VALUES(" & vlo_id1 & ",'" & vlo_ausgabe.Haushaltsunterkategorie & "'," & vlo_ausgabe.HaushaltskategorieID & "," & vlo_ausgabe.EinheitID & "," & vlo_ausgabe.ZahlungsrythmusID & ",'');"
+            SetAusgabeNew = "INSERT INTO tbl_haushaltsunterkategorie (ID_Haushaltsunterkategorie, Haushaltsunterkategorie, Haushaltskategorie_ID, Einheit_ID, Zahlungsrythmus_ID) VALUES(" & vlo_id1 & ",'" & vlo_ausgabe.Haushaltsunterkategorie & "'," & vlo_ausgabe.HaushaltskategorieID & "," & vlo_ausgabe.EinheitID & "," & vlo_ausgabe.ZahlungsrythmusID & ");"
             adp_KVI_mysql.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand(SetAusgabeNew, CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
             adp_KVI_mysql.InsertCommand.ExecuteNonQuery()
         Catch ex As Exception
@@ -734,7 +734,7 @@ Public Class Service1
         vlo_id1 = get_daten.Tables(0).Rows(0).Item("MAXID") + 1
 
         Try
-            SetEinnahmeNew = "INSERT INTO tbl_haushaltsunterkategorie (ID_Haushaltsunterkategorie, Haushaltsunterkategorie, Haushaltskategorie_ID, Einheit_ID, Zahlungsrythmus_ID,Bemerkung) VALUES(" & vlo_id1 & ",'" & vlo_einnahme.Haushaltsunterkategorie & "'," & vlo_einnahme.HaushaltskategorieID & "," & vlo_einnahme.EinheitID & "," & vlo_einnahme.ZahlungsrythmusID & ",'');"
+            SetEinnahmeNew = "INSERT INTO tbl_haushaltsunterkategorie (ID_Haushaltsunterkategorie, Haushaltsunterkategorie, Haushaltskategorie_ID, Einheit_ID, Zahlungsrythmus_ID) VALUES(" & vlo_id1 & ",'" & vlo_einnahme.Haushaltsunterkategorie & "'," & vlo_einnahme.HaushaltskategorieID & "," & vlo_einnahme.EinheitID & "," & vlo_einnahme.ZahlungsrythmusID & ");"
             adp_KVI_mysql.InsertCommand = New MySql.Data.MySqlClient.MySqlCommand(SetEinnahmeNew, CType(Conn, MySql.Data.MySqlClient.MySqlConnection))
             adp_KVI_mysql.InsertCommand.ExecuteNonQuery()
         Catch ex As Exception
